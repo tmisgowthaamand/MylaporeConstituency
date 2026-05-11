@@ -226,7 +226,7 @@ export default function LandingPage() {
 
       {/* ═══════ INFO GRID ═══════ */}
       <section className="py-16 bg-gray-50/50">
-        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6">
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-6">
 
           {/* Announcements */}
           <div className="rv rv-left bg-white rounded-2xl p-6 border border-gray-100">
@@ -263,25 +263,6 @@ export default function LandingPage() {
                 <div key={i} className="flex justify-between py-2.5 border-b border-gray-50 last:border-0">
                   <span className="text-gray-400">{k}</span>
                   <span className="font-semibold text-navy">{v}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Contact */}
-          <div className="rv rv-right bg-white rounded-2xl p-6 border border-gray-100" data-d="3">
-            <h3 className="font-bold text-sm text-navy mb-5 flex items-center gap-2">
-              <Phone className="w-4 h-4 text-tvk-green" /> {t('contactUs')}
-            </h3>
-            <div className="space-y-3">
-              {[
-                { Icon: Phone, t: '1800-XXX-XXXX', d: t('tollFree') },
-                { Icon: Mail, t: 'mla.mylapore@tn.gov.in', d: t('emailSupport') },
-                { Icon: MapPin, t: t('mlaOffice'), d: t('officeHours') },
-              ].map((c, i) => (
-                <div key={i} className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl text-xs">
-                  <c.Icon className="w-4 h-4 text-navy flex-shrink-0" />
-                  <div><p className="font-semibold text-navy">{c.t}</p><p className="text-[10px] text-gray-400">{c.d}</p></div>
                 </div>
               ))}
             </div>
