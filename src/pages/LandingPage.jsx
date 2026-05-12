@@ -74,7 +74,7 @@ export default function LandingPage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-saffron dot-pulse" />{t('portalActive')}
               </div>
 
-              <h1 className="hero-anim hero-anim-d1 text-[2rem] md:text-[2.75rem] lg:text-[3.25rem] font-bold font-serif text-white leading-[1.15] tracking-tight">
+              <h1 className="hero-anim hero-anim-d1 text-[2rem] md:text-[2.75rem] lg:text-[3.25rem] font-bold font-sans text-white leading-[1.15] tracking-tight">
                 {t('heroTitle1')}<br />{t('heroTitle2')}{' '}
                 <span className="text-saffron">{t('heroTitle3')}</span>
               </h1>
@@ -138,7 +138,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-14 rv rv-up">
             <p className="text-[11px] font-bold text-saffron uppercase tracking-[4px] mb-3">{t('whatYouCanDo')}</p>
-            <h2 className="text-2xl md:text-3xl font-bold font-serif text-navy">{t('ourServices')}</h2>
+            <h2 className="text-2xl md:text-3xl font-bold font-sans text-navy">{t('ourServices')}</h2>
             <div className="section-line mx-auto mt-4" />
           </div>
 
@@ -168,7 +168,7 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-14 rv rv-up">
             <p className="text-[11px] font-bold text-saffron uppercase tracking-[4px] mb-3">{t('simpleProcess')}</p>
-            <h2 className="text-2xl md:text-3xl font-bold font-serif text-navy">{t('howItWorks')}</h2>
+            <h2 className="text-2xl md:text-3xl font-bold font-sans text-navy">{t('howItWorks')}</h2>
             <div className="section-line mx-auto mt-4" />
           </div>
 

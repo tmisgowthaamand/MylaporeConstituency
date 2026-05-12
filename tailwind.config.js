@@ -20,7 +20,6 @@ export default {
       },
       fontFamily: {
         sans: ['Noto Sans', 'sans-serif'],
-        serif: ['Noto Serif', 'serif'],
       }
     },
   },

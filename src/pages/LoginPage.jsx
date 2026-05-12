@@ -71,96 +71,96 @@ export default function LoginPage() {
       <div className="flex-1 flex flex-col lg:flex-row">
 
         {/* ─── LEFT: LEADER IMAGE ─── */}
-        <div className="hidden lg:flex lg:w-[42%] relative overflow-hidden items-end justify-center bg-white">
+        <div className="hidden lg:flex lg:w-[45%] relative overflow-hidden items-center justify-center bg-gray-200">
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-[80%] h-[80%] bg-[#f5c518]/20 rounded-full blur-3xl" />
+            <div className="w-[60%] h-[60%] bg-yellow-300/10 rounded-full blur-3xl" />
           </div>
           <img
-            src="/login-right.png"
+            src="/93bb2e14-70f0-463c-96c1-7a4fec0c9e25.png"
             alt="TVK Leader"
-            className="relative z-10 w-[88%] max-w-xl object-contain object-bottom"
+            className="relative z-10 w-full h-full object-cover object-center"
           />
         </div>
 
         {/* ─── RIGHT: LOGIN FORM ─── */}
-        <div className="flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-16 py-10 lg:py-8 overflow-y-auto">
+        <div className="flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-16 py-12 lg:py-8 overflow-y-auto">
           <div className="w-full max-w-md mx-auto">
 
             {/* Back button */}
-            <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-navy mb-6 transition-colors">
+            <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 mb-8 transition-colors">
               <ArrowLeft className="w-4 h-4" /> Back
             </Link>
 
             {/* TVK Brand header */}
-            <div className="flex items-center gap-3 mb-8">
-              <img src="/e.jpg" alt="TVK" className="w-12 h-12 rounded-full object-cover object-top shadow-md" />
+            <div className="flex items-center gap-3 mb-10">
+              <img src="/e.jpg" alt="TVK" className="w-14 h-14 rounded-full object-cover shadow-md border-2 border-yellow-300" />
               <div>
                 <p className="text-red-800 font-bold text-lg leading-tight">தமிழக வெற்றிக் கழகம்</p>
-                <p className="text-gray-400 text-xs">பிறப்பொக்கும் எல்லா உயிர்க்கும்</p>
+                <p className="text-gray-500 text-xs font-semibold">பிறப்பொக்கும் எல்லா உயிர்க்கும்</p>
               </div>
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl font-bold text-gray-900 mb-1">Welcome Back!</h1>
-            <p className="text-gray-400 text-sm mb-8">Login to the Mylapore Citizen Portal</p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome Back!</h1>
+            <p className="text-gray-600 text-base mb-10">Login to the Mylapore Citizen Portal</p>
 
             {/* Mobile leader image */}
-            <div className="lg:hidden flex justify-center mb-6">
-              <img src="/login-right.png" alt="TVK" className="w-40 object-contain" />
+            <div className="lg:hidden flex justify-center mb-8">
+              <img src="/93bb2e14-70f0-463c-96c1-7a4fec0c9e25.png" alt="TVK" className="w-48 object-contain" />
             </div>
 
             {error && (
-              <div className="mb-5 p-3 bg-red-50 text-red-700 text-sm rounded-lg border border-red-100 flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 shrink-0" /> {error}
+              <div className="mb-6 p-4 bg-red-50 text-red-700 text-sm rounded-xl border border-red-200 flex items-center gap-3">
+                <ShieldCheck className="w-5 h-5 shrink-0" /> {error}
               </div>
             )}
             {info && step === 2 && !error && (
-              <div className="mb-5 p-3 bg-green-50 text-green-700 text-sm rounded-lg border border-green-100 flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 shrink-0" /> {info}
+              <div className="mb-6 p-4 bg-green-50 text-green-700 text-sm rounded-xl border border-green-200 flex items-center gap-3">
+                <ShieldCheck className="w-5 h-5 shrink-0" /> {info}
               </div>
             )}
 
             {step === 1 ? (
-              <form onSubmit={requestOtp} className="space-y-5">
+              <form onSubmit={requestOtp} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Mobile Number</label>
-                  <div className="flex border border-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-[#f5c518] focus-within:border-[#f5c518] transition">
-                    <span className="px-4 flex items-center text-gray-500 text-sm font-medium border-r border-gray-300 bg-gray-50 rounded-l-lg">+91</span>
+                  <label className="block text-sm font-bold text-gray-800 mb-2.5">Mobile Number</label>
+                  <div className="flex border-2 border-gray-300 rounded-xl focus-within:ring-2 focus-within:ring-yellow-400 focus-within:border-yellow-400 transition-all bg-white">
+                    <span className="px-4 flex items-center text-gray-600 text-sm font-semibold border-r-2 border-gray-300 bg-gray-50 rounded-l-xl">+91</span>
                     <input
                       type="tel"
                       autoComplete="tel-national"
                       inputMode="numeric"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                      className="flex-1 px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none rounded-r-lg"
+                      className="flex-1 px-4 py-3.5 text-gray-900 placeholder-gray-400 focus:outline-none rounded-r-xl bg-white text-lg font-semibold"
                       placeholder="Enter mobile number"
                       required
                       autoFocus
                     />
                   </div>
-                  <p className="text-xs text-gray-400 mt-1.5">We'll send a 6-digit code via WhatsApp.</p>
+                  <p className="text-xs text-gray-500 mt-2 font-medium">We'll send a 6-digit code via WhatsApp.</p>
                 </div>
 
                 <button
                   type="submit"
                   disabled={busy || phone.length !== 10}
-                  className="w-full py-3.5 rounded-lg text-base font-bold bg-[#f5c518] text-gray-900 hover:bg-[#e6b800] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="w-full py-4 rounded-xl text-base font-bold bg-yellow-400 text-gray-900 hover:bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg"
                 >
                   {busy ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Send OTP'}
                 </button>
               </form>
             ) : (
-              <form onSubmit={verifyOtp} className="space-y-5">
+              <form onSubmit={verifyOtp} className="space-y-6">
                 <button
                   type="button"
                   onClick={() => { setStep(1); setOtp(''); setError(''); setInfo('') }}
-                  className="text-sm text-gray-500 hover:text-tvk-blue flex items-center gap-1"
+                  className="text-sm text-gray-600 hover:text-gray-800 flex items-center gap-1 font-medium"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" /> Edit number
                 </button>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">6-Digit Code</label>
+                  <label className="block text-sm font-bold text-gray-800 mb-2.5">6-Digit Code</label>
                   <input
                     ref={otpRef}
                     type="text"
@@ -169,17 +169,17 @@ export default function LoginPage() {
                     maxLength={6}
                     value={otp}
                     onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                    className="w-full px-4 py-3.5 border border-gray-300 rounded-lg text-gray-900 font-bold tracking-[0.4em] text-center text-lg focus:outline-none focus:ring-2 focus:ring-[#f5c518] focus:border-[#f5c518] transition"
+                    className="w-full px-4 py-4 border-2 border-gray-300 rounded-xl text-gray-900 font-bold tracking-[0.5em] text-center text-2xl focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all bg-white"
                     placeholder="••••••"
                     required
                   />
-                  <div className="flex items-center justify-between mt-2 text-xs">
-                    <span className="text-gray-400">Code expires in 5 minutes</span>
+                  <div className="flex items-center justify-between mt-3 text-xs">
+                    <span className="text-gray-500 font-medium">Code expires in 5 minutes</span>
                     <button
                       type="button"
                       onClick={requestOtp}
                       disabled={secondsLeft > 0 || busy}
-                      className="font-semibold text-red-700 hover:text-red-900 disabled:text-gray-300 disabled:cursor-not-allowed"
+                      className="font-bold text-yellow-600 hover:text-yellow-700 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
                     >
                       {secondsLeft > 0 ? `Resend in ${secondsLeft}s` : 'Resend OTP'}
                     </button>
@@ -189,16 +189,25 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={busy || otp.length !== 6}
-                  className="w-full py-3.5 rounded-lg text-base font-bold bg-[#f5c518] text-gray-900 hover:bg-[#e6b800] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="w-full py-4 rounded-xl text-base font-bold bg-yellow-400 text-gray-900 hover:bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg"
                 >
                   {busy ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Verify & Sign In'}
                 </button>
               </form>
             )}
 
-            <p className="text-center text-sm text-gray-500 mt-8">
+            <div className="relative my-10">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">or</span>
+              </div>
+            </div>
+
+            <p className="text-center text-sm text-gray-600">
               Don't have an account?{' '}
-              <Link to="/register" className="font-bold text-red-700 hover:text-red-900">
+              <Link to="/register" className="font-bold text-yellow-600 hover:text-yellow-700 transition-colors">
                 Register now
               </Link>
             </p>
@@ -207,12 +216,12 @@ export default function LoginPage() {
       </div>
 
       {/* ─── FOOTER ─── */}
-      <footer className="border-t border-gray-100 py-4 text-center">
-        <p className="text-xs text-gray-400">© 2024 Tamilaga Vettri Kazhagam. All Rights Reserved.</p>
-        <div className="flex items-center justify-center gap-3 mt-1 text-xs text-gray-400">
-          <span className="hover:text-gray-600 cursor-pointer">Privacy Policy</span>
-          <span>|</span>
-          <span className="hover:text-gray-600 cursor-pointer">Terms of Service</span>
+      <footer className="border-t border-gray-200 py-5 text-center bg-gray-50">
+        <p className="text-xs text-gray-600 font-medium">© 2024 Tamilaga Vettri Kazhagam. All Rights Reserved.</p>
+        <div className="flex items-center justify-center gap-4 mt-2 text-xs text-gray-600">
+          <span className="hover:text-gray-800 cursor-pointer transition-colors">Privacy Policy</span>
+          <span className="text-gray-300">|</span>
+          <span className="hover:text-gray-800 cursor-pointer transition-colors">Terms of Service</span>
         </div>
       </footer>
     </div>
