@@ -76,7 +76,7 @@ export default function LoginPage() {
           style={{
             backgroundImage: 'url(/93bb2e14-70f0-463c-96c1-7a4fec0c9e25.png)',
             backgroundSize: 'cover',
-            backgroundPosition: 'center top',
+            backgroundPosition: 'center 30%',
             backgroundRepeat: 'no-repeat',
             backgroundColor: '#e8e8e8',
           }}

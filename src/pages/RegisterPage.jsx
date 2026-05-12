@@ -103,11 +103,11 @@ export default function RegisterPage() {
 
         {/* ─── LEFT: LEADER IMAGE ─── */}
         <div
-          className="hidden lg:block lg:w-[45%] relative overflow-hidden"
+          className="hidden lg:block lg:w-[45%] sticky top-0 self-start min-h-screen overflow-hidden"
           style={{
             backgroundImage: 'url(/93bb2e14-70f0-463c-96c1-7a4fec0c9e25.png)',
             backgroundSize: 'cover',
-            backgroundPosition: 'center top',
+            backgroundPosition: 'center 30%',
             backgroundRepeat: 'no-repeat',
             backgroundColor: '#e8e8e8',
           }}
