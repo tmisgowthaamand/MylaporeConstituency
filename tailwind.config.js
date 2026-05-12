@@ -19,8 +19,28 @@ export default {
         tvk: { green: '#138808', blue: '#0057a8' }
       },
       fontFamily: {
-        sans: ['Noto Sans', 'sans-serif'],
-      }
+        sans: [
+          'Noto Sans',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"'
+        ],
+      },
+      letterSpacing: {
+        tighter: '-0.05em',
+        tight: '-0.025em',
+        normal: '0',
+        wide: '0.025em',
+        wider: '0.05em',
+        widest: '0.1em',
+      },
     },
   },
   plugins: [],
