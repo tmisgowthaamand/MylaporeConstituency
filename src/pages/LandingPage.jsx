@@ -97,6 +97,7 @@ export default function LandingPage() {
                 ) : (
                   <>
                     <button onClick={() => go('/login')} className="bg-saffron text-white px-4 sm:px-8 py-2.5 sm:py-3.5 rounded-lg md:rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 lift hover:bg-saffron/90 transition-colors shadow-lg shadow-saffron/20">
+                      Login Now
                     </button>
                     <button onClick={() => go('/register')} className="bg-white/10 border border-white/20 backdrop-blur-sm text-white px-8 py-3.5 rounded-xl text-sm font-semibold flex items-center gap-2.5 lift hover:bg-white/20 transition-colors shadow-lg shadow-black/10">
                       Register Now <ArrowRight className="w-4 h-4" />

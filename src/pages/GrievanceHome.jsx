@@ -69,6 +69,7 @@ export default function GrievanceHome() {
   const [grievanceId, setGrievanceId] = useState(null)
   const [submitError, setSubmitError] = useState('')
   const [toast, setToast] = useState(null)
+  const [showMapPicker, setShowMapPicker] = useState(false)
 
   // Catalog fetched from /portal/services — same admin-uploaded icons that
   // drive the WhatsApp flow show up here, single source of truth.
@@ -137,7 +138,7 @@ export default function GrievanceHome() {
           const data = await res.json()
           const addr = data.address || {}
           const shortAddr = [addr.road, addr.suburb || addr.neighbourhood, addr.city || addr.town || addr.county, addr.state].filter(Boolean).join(', ')
-          setLocation({ ...location, text: shortAddr || data.display_name || `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`, lat: latitude, lng: longitude })
+          setLocation({ ...location, text: shortAddr || data.display_name || `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`, lat: latitude, lng: longitude, street: addr.road || '' })
           if (!inIndia) { setToast('Location outside India — defaulted to Chennai. Please select your district & area.'); setTimeout(() => setToast(null), 5000) }
         } catch {
           setLocation({ ...location, text: `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`, lat: latitude, lng: longitude })
@@ -146,6 +147,87 @@ export default function GrievanceHome() {
       (err) => { setToast('Unable to get location: ' + err.message); setTimeout(() => setToast(null), 5000); setGeoLoading(false) },
       { enableHighAccuracy: true, timeout: 10000 }
     )
+  }
+
+  const openGoogleMapsPicker = () => {
+    // Center on Mylapore coordinates
+    const mylaporeCoords = { lat: 13.0368, lng: 80.2676 }
+    const mapUrl = `https://www.google.com/maps/@${mylaporeCoords.lat},${mylaporeCoords.lng},17z`
+    
+    // Open Google Maps in new window
+    const mapWindow = window.open(mapUrl, 'GoogleMapsPicker', 'width=1000,height=800')
+    
+    setToast('📍 Click on a location in Google Maps. The URL will update with coordinates. Copy the URL and paste it back here.')
+    setTimeout(() => setToast(null), 8000)
+    
+    // Prompt user to paste the Google Maps URL
+    setTimeout(() => {
+      const mapsUrl = prompt('Paste the Google Maps URL here after selecting your location:')
+      if (mapsUrl) {
+        extractLocationFromUrl(mapsUrl)
+      }
+    }, 2000)
+  }
+
+  const extractLocationFromUrl = async (url) => {
+    try {
+      // Extract coordinates from Google Maps URL
+      // Format: https://www.google.com/maps/@13.0368,80.2676,17z or https://www.google.com/maps/place/.../@13.0368,80.2676
+      const coordMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)
+      
+      if (!coordMatch) {
+        setToast('❌ Could not extract coordinates from URL. Please try again.')
+        setTimeout(() => setToast(null), 5000)
+        return
+      }
+
+      const lat = parseFloat(coordMatch[1])
+      const lng = parseFloat(coordMatch[2])
+
+      // Validate coordinates are in Mylapore area (rough bounds)
+      if (lat < 13.02 || lat > 13.05 || lng < 80.25 || lng > 80.29) {
+        setToast('⚠️ Location seems outside Mylapore area. Please select a location within Mylapore.')
+        setTimeout(() => setToast(null), 5000)
+        return
+      }
+
+      setGeoLoading(true)
+
+      // Reverse geocode to get street address
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&countrycodes=in`)
+      const data = await res.json()
+      
+      if (data && data.address) {
+        const addr = data.address
+        const street = addr.road || addr.street || addr.neighbourhood || addr.suburb || ''
+        const landmark = addr.amenity || addr.building || ''
+        const houseNumber = addr.house_number || ''
+
+        let streetAddress = ''
+        if (houseNumber) streetAddress += houseNumber + ', '
+        if (street) streetAddress += street
+        else if (landmark) streetAddress += landmark
+
+        const finalStreet = streetAddress || `${lat.toFixed(6)}, ${lng.toFixed(6)}`
+        const base = location.area ? `${location.area}, ${location.district}` : location.district || ''
+        
+        setLocation({
+          ...location,
+          street: finalStreet,
+          text: `${finalStreet}, ${base}`,
+          lat,
+          lng
+        })
+
+        setToast('✅ Location added successfully!')
+        setTimeout(() => setToast(null), 3000)
+      }
+    } catch (err) {
+      setToast('❌ Failed to fetch address. Please try again.')
+      setTimeout(() => setToast(null), 5000)
+    } finally {
+      setGeoLoading(false)
+    }
   }
 
   // Wipe everything past sub-category so going Back never carries a stale
@@ -657,27 +739,42 @@ export default function GrievanceHome() {
                     </div>
 
                     {/* Street / Landmark */}
-                    <div className="relative">
-                      <input
-                        type="text"
-                        className="w-full border border-gray-200 rounded-xl px-5 py-3.5 pr-12 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a3a6b] focus:border-transparent transition-all placeholder:text-gray-400"
-                        placeholder="Street name, landmark, or house number"
-                        value={location.street || ''}
-                        onChange={(e) => {
-                          const street = e.target.value
-                          const base = location.area ? `${location.area}, ${location.district}` : location.district || ''
-                          setLocation({ ...location, street, text: street ? `${street}, ${base}` : base })
-                        }}
-                      />
-                      <button
-                        type="button"
-                        onClick={fetchCurrentLocation}
-                        disabled={geoLoading}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#1a3a6b]/5 hover:bg-[#1a3a6b]/15 flex items-center justify-center transition-colors disabled:opacity-50"
-                        title="Use my current location"
-                      >
-                        {geoLoading ? <Loader2 className="w-4 h-4 text-[#1a3a6b] animate-spin" /> : <MapPin className="w-4 h-4 text-[#1a3a6b]" />}
-                      </button>
+                    <div className="mb-4">
+                      <label className="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Street / Landmark</label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          className="w-full border border-gray-200 rounded-xl px-5 py-3.5 pr-12 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a3a6b] focus:border-transparent transition-all placeholder:text-gray-400"
+                          placeholder="Street name, landmark, or house number"
+                          value={location.street || ''}
+                          onChange={(e) => {
+                            const street = e.target.value
+                            const base = location.area ? `${location.area}, ${location.district}` : location.district || ''
+                            setLocation({ ...location, street, text: street ? `${street}, ${base}` : base })
+                          }}
+                        />
+                        {location.area === 'Mylapore' && (
+                          <button
+                            type="button"
+                            onClick={openGoogleMapsPicker}
+                            disabled={geoLoading}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center transition-colors shadow-sm disabled:opacity-50"
+                            title="Pick location on Google Maps"
+                          >
+                            {geoLoading ? (
+                              <Loader2 className="w-4 h-4 text-white animate-spin" />
+                            ) : (
+                              <MapPin className="w-4 h-4 text-white" />
+                            )}
+                          </button>
+                        )}
+                      </div>
+                      {location.area === 'Mylapore' && (
+                        <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                          <MapPin className="w-3 h-3 text-blue-600" />
+                          Click the blue map icon to select your exact location in Mylapore
+                        </p>
+                      )}
                     </div>
                   </div>
 
