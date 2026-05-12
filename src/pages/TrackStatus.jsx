@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Search, MapPin, Clock, MessageSquare, AlertCircle, PhoneCall, QrCode, CheckCircle2 } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Search, MapPin, Clock, MessageSquare, AlertCircle, PhoneCall, QrCode, CheckCircle2, Info } from 'lucide-react'
 import api from '../lib/api'
 
 /**
@@ -28,6 +28,26 @@ export default function TrackStatus() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
+  // Catalog fetched from /portal/services
+  const [services, setServices] = useState([])
+  const [catalogLoading, setCatalogLoading] = useState(true)
+  const [catalogError, setCatalogError] = useState('')
+
+  useEffect(() => {
+    let alive = true
+    setCatalogLoading(true); setCatalogError('')
+    api.get('/portal/services')
+      .then((res) => { 
+        if (alive) {
+          const srvs = Array.isArray(res.data?.services) ? res.data.services : []
+          setServices(srvs)
+        } 
+      })
+      .catch((err) => { if (alive) setCatalogError(err.response?.data?.error || 'Could not load services.') })
+      .finally(() => { if (alive) setCatalogLoading(false) })
+    return () => { alive = false }
+  }, [])
+
   async function handleTrack(e) {
     e.preventDefault()
     setError('')
@@ -50,6 +70,70 @@ export default function TrackStatus() {
 
   return (
     <div className="flex min-h-[calc(100vh-80px)] bg-[#f4f6f8]">
+      {/* ── LEFT SIDEBAR (Grievance Categories) ── */}
+      <div className="hidden lg:flex flex-col w-[260px] xl:w-[280px] shrink-0 bg-white border-r border-gray-200 pt-6">
+        <div className="px-5 pb-4">
+          <h3 className="text-[10px] font-bold text-gray-400 tracking-widest uppercase">Grievance Categories</h3>
+        </div>
+        
+        {catalogLoading && (
+          <div className="flex items-center justify-center py-12 text-gray-400">
+            <Clock className="w-5 h-5 animate-spin mr-2" />
+            <span className="text-sm">Loading...</span>
+          </div>
+        )}
+
+        {!catalogLoading && catalogError && (
+          <div className="flex items-start gap-2 bg-red-50 text-red-700 p-4 m-4 rounded-xl text-sm">
+            <AlertCircle className="w-5 h-5 shrink-0" />
+            <div>{catalogError}</div>
+          </div>
+        )}
+
+        {!catalogLoading && !catalogError && (
+          <div className="flex-1 overflow-y-auto pb-4 custom-scrollbar flex flex-col justify-between">
+            {services.map((s) => {
+              // Highlight the category if it matches the tracked grievance
+              const isActive = result && (result.serviceId === s.id || result.serviceTitle === s.title);
+              return (
+                <div
+                  key={s.id}
+                  className={`w-full flex items-center gap-3 px-5 py-3 transition-all duration-200 ${
+                    isActive
+                      ? 'bg-[#1a3a6b] text-white font-bold shadow-sm'
+                      : 'text-gray-600 font-medium'
+                  }`}
+                >
+                  <div className={`w-6 h-6 flex items-center justify-center shrink-0 ${
+                    isActive ? 'text-white/80' : 'text-gray-400'
+                  }`}>
+                    {s.iconUrl ? (
+                      <img src={s.iconUrl} alt={s.title} className={`w-full h-full object-contain ${isActive ? 'brightness-0 invert' : ''}`} />
+                    ) : (
+                      <div className="font-bold text-sm">{s.title?.charAt(0)}</div>
+                    )}
+                  </div>
+                  <span className="text-[20px] truncate">{s.title}</span>
+                  {isActive && (
+                    <CheckCircle2 className="w-5 h-5 ml-auto shrink-0" />
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
+
+        {/* ── BOTTOM HELP BLOCK ── */}
+        <div className="mt-auto p-6 bg-gray-50/50 border-t border-gray-100">
+          <button className="flex items-center gap-3 w-full text-left group">
+            <Info className="w-6 h-6 text-[#2b4162] shrink-0 group-hover:scale-110 transition-transform" />
+            <span className="text-[15px] font-medium text-[#2b4162] leading-tight">
+              Track your<br/>grievance status
+            </span>
+          </button>
+        </div>
+      </div>
+
       {/* ── MAIN CONTENT AREA ── */}
       <div className="flex-1 flex flex-col items-center justify-center overflow-y-auto">
         <div className="w-full max-w-2xl p-3 sm:p-4 md:p-6 lg:p-12">
@@ -62,13 +146,18 @@ export default function TrackStatus() {
           </div>
 
           {/* Search Form Card */}
-          <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-200 p-4 sm:p-6 md:p-8 lg:p-10 shadow-sm mb-6 md:mb-8 max-w-2xl mx-auto w-full">
-            <form onSubmit={handleTrack}>
+          <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-200 shadow-sm mb-6 md:mb-8 max-w-2xl mx-auto w-full overflow-hidden">
+            <div className="bg-gradient-to-r from-[#1a3a6b] to-[#2b4162] px-6 md:px-8 py-4 md:py-5">
+              <h2 className="text-white font-bold text-base md:text-lg">Track Your Grievance</h2>
+              <p className="text-white/80 text-xs md:text-sm mt-1">Enter your reference ID to check status</p>
+            </div>
+            
+            <form onSubmit={handleTrack} className="p-6 md:p-8">
               <div className="mb-4 md:mb-6">
-                <label className="block text-xs sm:text-sm font-bold text-[#1a3a6b] uppercase tracking-widest mb-2 md:mb-3">Reference ID</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-700 uppercase tracking-wider mb-3">Reference ID</label>
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded-lg md:rounded-xl px-3 md:px-5 py-2.5 md:py-3.5 text-center font-mono uppercase tracking-wider text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[#1a3a6b] focus:border-transparent transition-all placeholder:text-gray-400"
+                  className="w-full border-2 border-gray-300 rounded-lg md:rounded-xl px-4 md:px-5 py-3 md:py-4 text-center font-mono uppercase tracking-wider text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-[#1a3a6b] focus:border-[#1a3a6b] transition-all placeholder:text-gray-400 bg-gray-50"
                   placeholder="TVK-XXXX-XXXX"
                   value={trackId}
                   onChange={(e) => setTrackId(e.target.value.toUpperCase())}
@@ -77,20 +166,32 @@ export default function TrackStatus() {
               </div>
 
               {error && (
-                <div className="flex items-start gap-2 text-red-600 text-xs md:text-sm mb-4 md:mb-6 bg-red-50 p-3 md:p-4 rounded-lg border border-red-200">
-                  <AlertCircle className="w-4 md:w-5 h-4 md:h-5 flex-shrink-0 mt-0.5" />
-                  <span>{error}</span>
+                <div className="flex items-start gap-3 text-red-700 text-xs md:text-sm mb-4 md:mb-6 bg-red-50 p-4 md:p-5 rounded-lg border border-red-200">
+                  <AlertCircle className="w-5 md:w-6 h-5 md:h-6 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-bold mb-1">Error</p>
+                    <p>{error}</p>
+                  </div>
                 </div>
               )}
 
               <button
                 type="submit"
-                className="w-full bg-[#1a3a6b] hover:bg-[#122d55] text-white py-2.5 md:py-3.5 rounded-lg md:rounded-xl font-bold text-sm md:text-base transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#1a3a6b] hover:bg-[#122d55] text-white py-3 md:py-4 rounded-lg md:rounded-xl font-bold text-sm md:text-base transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={loading || !trackId.trim()}
               >
                 {loading ? 'Searching...' : 'Track Status'}
               </button>
             </form>
+            
+            <div className="bg-blue-50 border-t border-blue-100 px-6 md:px-8 py-4">
+              <div className="flex items-start gap-2">
+                <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                <p className="text-xs text-blue-800">
+                  Your reference ID was sent to your registered mobile number and email when you filed the grievance.
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Result Card */}
@@ -98,65 +199,98 @@ export default function TrackStatus() {
             const status = STATUS[result.status] || STATUS.pending
             const isClosed = result.status === 'completed' || result.status === 'rejected'
             return (
-              <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-200 p-4 sm:p-6 md:p-8 lg:p-10 shadow-sm max-w-2xl mx-auto w-full">
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4 md:mb-5">
-                  <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <span className="text-xs sm:text-sm font-bold text-[#1a3a6b]">#{result.ticketId}</span>
-                      <span className={`inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs font-semibold ${status.cls}`}>
-                        {status.label}
-                      </span>
+              <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-200 shadow-sm max-w-2xl mx-auto w-full overflow-hidden">
+                {/* Header with Ticket ID and Status */}
+                <div className="bg-gradient-to-r from-[#1a3a6b] to-[#2b4162] px-6 md:px-8 py-5 md:py-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div>
+                      <div className="text-white/70 text-xs font-bold uppercase tracking-wider mb-1">Reference ID</div>
+                      <div className="text-white font-mono text-xl md:text-2xl font-bold tracking-wider">#{result.ticketId}</div>
                     </div>
-                    <h3 className="text-sm sm:text-base md:text-[17px] font-bold text-gray-900 break-words">{result.optionTitle || result.optionId}</h3>
+                    <span className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-bold ${status.cls} self-start sm:self-auto`}>
+                      {status.label}
+                    </span>
                   </div>
                 </div>
 
-                <div className="mb-4 md:mb-5">
-                  <span className="inline-block bg-[#1a3a6b]/10 text-[#1a3a6b] text-xs font-bold px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg">
-                    {result.serviceTitle || result.serviceId}
-                  </span>
-                </div>
-
-                {result.location && (
-                  <div className="flex items-start gap-2 text-xs sm:text-sm text-gray-600 mb-3 md:mb-4 break-words">
-                    <MapPin className="w-3 sm:w-4 h-3 sm:h-4 flex-shrink-0 mt-0.5" />
-                    <span>{result.location}</span>
+                <div className="p-6 md:p-8">
+                  {/* Issue Title */}
+                  <div className="mb-6">
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3">{result.optionTitle || result.optionId}</h3>
+                    <span className="inline-block bg-[#1a3a6b]/10 text-[#1a3a6b] text-xs md:text-sm font-bold px-3 md:px-4 py-1.5 md:py-2 rounded-lg border border-[#1a3a6b]/20">
+                      {result.serviceTitle || result.serviceId}
+                    </span>
                   </div>
-                )}
 
-                {result.description && (
-                  <p className="text-xs sm:text-sm text-gray-700 bg-gray-50 rounded-lg p-3 md:p-4 mb-4 md:mb-5 border border-gray-100 break-words">
-                    {result.description}
-                  </p>
-                )}
-
-                {result.notes && (
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-3 md:p-5 mb-4 md:mb-5">
-                    <div className="flex items-start gap-2 text-xs sm:text-sm font-bold text-green-800 mb-2 md:mb-3">
-                      <CheckCircle2 className="w-3 sm:w-4 h-3 sm:h-4 flex-shrink-0 mt-0.5" />
-                      <span>MLA Team Response:</span>
+                  {/* Location */}
+                  {result.location && (
+                    <div className="mb-5 pb-5 border-b border-gray-200">
+                      <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Location</div>
+                      <div className="flex items-start gap-2 text-sm text-gray-700">
+                        <MapPin className="w-4 h-4 shrink-0 mt-0.5 text-[#1a3a6b]" />
+                        <span>{result.location}</span>
+                      </div>
                     </div>
-                    <p className="text-xs sm:text-sm text-green-800 break-words">{result.notes}</p>
-                  </div>
-                )}
+                  )}
 
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs sm:text-sm text-gray-600 mb-4 md:mb-5 pb-4 md:pb-5 border-b border-gray-100">
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-3 sm:w-4 h-3 sm:h-4 flex-shrink-0" />
-                    {formatDate(result.createdAt)}
-                  </span>
-                  <span className={`font-semibold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs ${isClosed ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
-                    {isClosed ? 'Action Taken' : 'Awaiting Review'}
-                  </span>
+                  {/* Description */}
+                  {result.description && (
+                    <div className="mb-5 pb-5 border-b border-gray-200">
+                      <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Description</div>
+                      <p className="text-sm text-gray-700 bg-gray-50 rounded-lg p-4 border border-gray-100 leading-relaxed">
+                        {result.description}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* MLA Response */}
+                  {result.notes && (
+                    <div className="mb-5 pb-5 border-b border-gray-200">
+                      <div className="bg-green-50 border-l-4 border-green-500 rounded-lg p-4 md:p-5">
+                        <div className="flex items-start gap-3">
+                          <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
+                          <div>
+                            <div className="text-sm font-bold text-green-800 mb-2">Official Response</div>
+                            <p className="text-sm text-green-800 leading-relaxed">{result.notes}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Status Info */}
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <Clock className="w-4 h-4 shrink-0" />
+                      <span>Submitted on {formatDate(result.createdAt)}</span>
+                    </div>
+                    <span className={`font-bold px-4 py-2 rounded-lg text-sm ${isClosed ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-orange-100 text-orange-700 border border-orange-200'}`}>
+                      {isClosed ? 'Action Taken' : 'Awaiting Review'}
+                    </span>
+                  </div>
+
+                  {/* Progress Bar */}
+                  <div>
+                    <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Resolution Progress</div>
+                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-3">
+                      <div className={`h-full rounded-full transition-all duration-700 ${status.bar}`} style={{ width: status.pct }} />
+                    </div>
+                    <div className="flex justify-between text-[10px] md:text-[11px] text-gray-500 font-medium">
+                      <span>Received</span><span>Review</span><span>Action</span><span>Resolved</span>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Progress Bar */}
-                <div>
-                  <div className="h-1.5 sm:h-2 bg-gray-200 rounded-full overflow-hidden mb-2 md:mb-3">
-                    <div className={`h-full rounded-full transition-all ${status.bar}`} style={{ width: status.pct }} />
-                  </div>
-                  <div className="flex justify-between text-[10px] sm:text-[11px] text-gray-500 gap-1">
-                    <span>Received</span><span>Review</span><span>Action</span><span>Resolved</span>
+                {/* Footer Info */}
+                <div className="bg-blue-50 border-t border-blue-100 px-6 md:px-8 py-4">
+                  <div className="flex items-start gap-3">
+                    <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-xs md:text-sm text-blue-900 font-semibold mb-1">Status Updates</p>
+                      <p className="text-xs md:text-sm text-blue-800 leading-relaxed">
+                        You will receive SMS and email notifications at each stage of the resolution process. For urgent queries, contact the helpline.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>

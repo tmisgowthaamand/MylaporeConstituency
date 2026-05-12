@@ -143,17 +143,55 @@ export default function MyGrievances() {
               <p className="text-xs md:text-base text-gray-500">Loading grievances...</p>
             </div>
           ) : filteredRequests.length === 0 ? (
-            <div className="bg-white rounded-xl md:rounded-2xl border border-gray-200 p-6 md:p-12 text-center">
-              <div className="text-3xl md:text-5xl mb-3 md:mb-4">📭</div>
-              <p className="text-gray-600 text-sm md:text-lg mb-4 md:mb-6">
-                {filterStatus === 'all' ? 'No grievances raised yet.' : 'No grievances in this status.'}
-              </p>
-              <button
-                onClick={() => navigate('/grievance')}
-                className="bg-[#1a3a6b] hover:bg-[#122d55] text-white px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl font-semibold text-xs md:text-sm transition-colors"
-              >
-                File Your First Grievance
-              </button>
+            <div className="bg-white rounded-xl md:rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+              <div className="bg-gradient-to-r from-[#1a3a6b] to-[#2b4162] px-6 md:px-8 py-4 md:py-5">
+                <h3 className="text-white font-bold text-base md:text-lg">
+                  {filterStatus === 'all' ? 'No Grievances Filed' : `No ${filterStatus.charAt(0).toUpperCase() + filterStatus.slice(1)} Grievances`}
+                </h3>
+              </div>
+              <div className="p-8 md:p-12 text-center">
+                <div className="w-16 md:w-20 h-16 md:h-20 mx-auto mb-4 md:mb-6 rounded-full bg-gray-100 flex items-center justify-center">
+                  <MessageSquare className="w-8 md:w-10 h-8 md:h-10 text-gray-400" />
+                </div>
+                <h4 className="text-lg md:text-xl font-bold text-gray-800 mb-2 md:mb-3">
+                  {filterStatus === 'all' ? 'No Grievances Registered' : 'No Grievances in This Category'}
+                </h4>
+                <p className="text-sm md:text-base text-gray-600 mb-6 md:mb-8 max-w-md mx-auto leading-relaxed">
+                  {filterStatus === 'all' 
+                    ? 'You have not filed any grievances yet. Submit your first grievance to get started with the resolution process.'
+                    : `There are currently no grievances with "${filterStatus}" status. Try selecting a different filter or file a new grievance.`
+                  }
+                </p>
+                {filterStatus === 'all' && (
+                  <button
+                    onClick={() => navigate('/grievance')}
+                    className="bg-[#1a3a6b] hover:bg-[#122d55] text-white px-6 md:px-8 py-3 md:py-3.5 rounded-lg md:rounded-xl font-bold text-sm md:text-base transition-colors shadow-sm inline-flex items-center gap-2"
+                  >
+                    <Plus className="w-4 md:w-5 h-4 md:h-5" />
+                    File Your First Grievance
+                  </button>
+                )}
+                {filterStatus !== 'all' && (
+                  <button
+                    onClick={() => setFilterStatus('all')}
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 md:px-8 py-3 md:py-3.5 rounded-lg md:rounded-xl font-bold text-sm md:text-base transition-colors inline-flex items-center gap-2"
+                  >
+                    <Filter className="w-4 md:w-5 h-4 md:h-5" />
+                    View All Grievances
+                  </button>
+                )}
+              </div>
+              <div className="bg-blue-50 border-t border-blue-100 px-6 md:px-8 py-4 md:py-5">
+                <div className="flex items-start gap-3">
+                  <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-xs md:text-sm text-blue-900 font-semibold mb-1">Information</p>
+                    <p className="text-xs md:text-sm text-blue-800 leading-relaxed">
+                      All grievances are tracked and monitored by the MLA office. You will receive updates via SMS and email at each stage of the resolution process.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="space-y-3 md:space-y-4">
