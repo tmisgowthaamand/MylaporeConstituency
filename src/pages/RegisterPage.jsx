@@ -102,17 +102,16 @@ export default function RegisterPage() {
       <div className="flex-1 flex flex-col lg:flex-row">
 
         {/* ─── LEFT: LEADER IMAGE ─── */}
-        <div className="hidden lg:flex lg:w-[45%] relative overflow-hidden items-center justify-center bg-gradient-to-br from-white to-gray-50">
-          {/* Yellow TN map silhouette background */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-[70%] h-[70%] bg-yellow-400/15 rounded-full blur-3xl" />
-          </div>
-          <img
-            src="/93bb2e14-70f0-463c-96c1-7a4fec0c9e25.png"
-            alt="TVK Leader"
-            className="relative z-10 w-full h-full object-cover object-center"
-          />
-        </div>
+        <div
+          className="hidden lg:block lg:w-[45%] relative overflow-hidden"
+          style={{
+            backgroundImage: 'url(/93bb2e14-70f0-463c-96c1-7a4fec0c9e25.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center top',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: '#e8e8e8',
+          }}
+        />
 
         {/* ─── RIGHT: REGISTER FORM ─── */}
         <div className="flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-16 py-12 lg:py-8 overflow-y-auto">
