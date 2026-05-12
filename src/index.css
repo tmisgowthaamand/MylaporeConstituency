@@ -6,6 +6,39 @@
   body {
     @apply bg-white text-gray-900 font-sans min-h-screen;
   }
+  
+  /* Prevent horizontal overflow globally */
+  html {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Ensure all text breaks properly */
+  * {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Prevent images from overflowing */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Prevent SVG overflow */
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Ensure flex containers don't overflow */
+  .flex, .inline-flex {
+    min-width: 0;
+  }
 }
 
 @layer components {

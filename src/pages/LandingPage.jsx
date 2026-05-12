@@ -55,11 +55,11 @@ export default function LandingPage() {
   }, [])
 
   return (
-    <div ref={root} className="bg-white" style={{ overflowX: 'clip' }}>
+    <div ref={root} className="bg-white">
 
 
       {/* ═══════ HERO ═══════ */}
-      <section className="relative bg-[#990000]" style={{ overflow: 'clip' }}>
+      <section className="relative bg-[#990000] overflow-hidden">
         {/* Background Overlay */}
         <div className="absolute inset-0 z-0">
           <img src="/bg.png" alt="Background" className="w-full h-full object-cover opacity-15" />
@@ -69,12 +69,12 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16 items-center">
 
             {/* Left — Copy */}
-            <div>
+            <div className="max-w-full overflow-hidden">
               <div className="hero-anim inline-flex items-center gap-2 bg-saffron/20 text-saffron text-[10px] sm:text-[11px] font-bold px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full mb-4 sm:mb-6 tracking-wider">
                 <span className="w-1.5 h-1.5 rounded-full bg-saffron dot-pulse" />{t('portalActive')}
               </div>
 
-              <h1 className="hero-anim hero-anim-d1 text-lg sm:text-2xl md:text-[2.75rem] lg:text-[3.25rem] font-bold font-sans text-white leading-[1.15] tracking-tight">
+              <h1 className="hero-anim hero-anim-d1 text-lg sm:text-2xl md:text-[2.75rem] lg:text-[3.25rem] font-bold font-sans text-white leading-[1.15] tracking-tight break-words max-w-full">
                 {t('heroTitle1')}<br />{t('heroTitle2')}{' '}
                 <span className="text-saffron">{t('heroTitle3')}</span>
               </h1>
@@ -106,23 +106,23 @@ export default function LandingPage() {
               </div>
 
               {/* Mini stats */}
-              <div className="hero-anim hero-anim-d4 flex gap-8 mt-10 pt-8 border-t border-white/20">
+              <div className="hero-anim hero-anim-d4 flex flex-wrap gap-4 sm:gap-8 mt-10 pt-8 border-t border-white/20 max-w-full">
                 {[
                   { n: stats.totalReceived, l: t('received') },
                   { n: stats.totalResolved, l: t('resolved') },
                   { n: stats.avgResponseTime, l: t('avgResponse') },
                 ].map((s, i) => (
-                  <div key={i}>
-                    <div className="text-xl font-extrabold text-white leading-none">{s.n}</div>
-                    <div className="text-[10px] text-white/60 uppercase tracking-widest mt-1">{s.l}</div>
+                  <div key={i} className="min-w-0 flex-shrink-0">
+                    <div className="text-lg sm:text-xl font-extrabold text-white leading-none break-words">{s.n}</div>
+                    <div className="text-[10px] text-white/60 uppercase tracking-widest mt-1 break-words">{s.l}</div>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Right — Image */}
-            <div className="img-reveal relative flex justify-center items-end mt-8 lg:mt-0">
-              <div className="relative w-full max-w-md">
+            <div className="img-reveal relative flex justify-center items-end mt-8 lg:mt-0 max-w-full overflow-hidden">
+              <div className="relative w-full max-w-md mx-auto">
                 <img src="/mla.png" alt="MLA Venkatramanan" className="w-full h-auto block drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)] transform translate-y-4 md:translate-y-8" />
               </div>
 
@@ -133,8 +133,8 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ SERVICES ═══════ */}
-      <section className="py-20 bg-gray-50/70">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="py-12 sm:py-16 md:py-20 bg-gray-50/70 overflow-hidden">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6">
           <div className="text-center mb-14 rv rv-up">
             <p className="text-[11px] font-bold text-saffron uppercase tracking-[4px] mb-3">{t('whatYouCanDo')}</p>
             <h2 className="text-2xl md:text-3xl font-bold font-sans text-navy">{t('ourServices')}</h2>
@@ -163,8 +163,8 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ HOW IT WORKS ═══════ */}
-      <section className="py-20 bg-white">
-        <div className="max-w-5xl mx-auto px-6">
+      <section className="py-12 sm:py-16 md:py-20 bg-white overflow-hidden">
+        <div className="max-w-5xl mx-auto px-3 sm:px-4 md:px-6">
           <div className="text-center mb-14 rv rv-up">
             <p className="text-[11px] font-bold text-saffron uppercase tracking-[4px] mb-3">{t('simpleProcess')}</p>
             <h2 className="text-2xl md:text-3xl font-bold font-sans text-navy">{t('howItWorks')}</h2>
@@ -196,8 +196,8 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ STATS BAR ═══════ */}
-      <section className="rv rv-up">
-        <div className="max-w-6xl mx-auto px-6 py-6">
+      <section className="rv rv-up overflow-hidden">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6">
           <div className="rounded-2xl bg-gradient-to-br from-navy-dark to-navy text-white p-8 md:p-10 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-60 h-60 bg-white/[0.03] rounded-full -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/[0.03] rounded-full translate-y-1/2 -translate-x-1/2" />
@@ -224,8 +224,8 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ INFO GRID ═══════ */}
-      <section className="py-16 bg-gray-50/50">
-        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-6">
+      <section className="py-12 sm:py-16 bg-gray-50/50 overflow-hidden">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 grid md:grid-cols-2 gap-4 sm:gap-6">
 
           {/* Announcements */}
           <div className="rv rv-left bg-white rounded-2xl p-6 border border-gray-100">
@@ -270,8 +270,8 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ CTA ═══════ */}
-      <section className="py-16 bg-navy text-white rv rv-up">
-        <div className="max-w-2xl mx-auto px-6 text-center">
+      <section className="py-12 sm:py-16 bg-navy text-white rv rv-up overflow-hidden">
+        <div className="max-w-2xl mx-auto px-3 sm:px-4 md:px-6 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">{t('ctaTitle')}</h2>
           <p className="text-sm text-blue-200/80 mb-8 max-w-md mx-auto leading-relaxed">
             {t('ctaDesc')}

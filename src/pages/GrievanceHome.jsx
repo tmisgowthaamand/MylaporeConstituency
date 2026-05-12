@@ -60,6 +60,7 @@ export default function GrievanceHome() {
   const [serviceObj, setServiceObj] = useState(null)
   const [optionObj, setOptionObj] = useState(null)
   const [location, setLocation] = useState({ text: '', lat: null, lng: null })
+  const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [image, setImage] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
@@ -151,6 +152,7 @@ export default function GrievanceHome() {
   // description / location / photo into a different action kind.
   const resetDownstream = () => {
     setLocation({ text: '', lat: null, lng: null })
+    setTitle('')
     setDescription('')
     setImage(null); setImagePreview(null)
     setSubmitError('')
@@ -195,7 +197,9 @@ export default function GrievanceHome() {
       fd.append('serviceTitle', serviceObj.title)
       fd.append('optionId',     optionObj.id)
       fd.append('optionTitle',  optionObj.title)
-      fd.append('description',  description.trim())
+      // Combine title and description
+      const fullDescription = title.trim() ? `${title.trim()}\n\n${description.trim()}` : description.trim()
+      fd.append('description',  fullDescription)
       fd.append('location',     location.text || '')
       if (location.lat != null) fd.append('lat', location.lat)
       if (location.lng != null) fd.append('lng', location.lng)
@@ -237,7 +241,7 @@ export default function GrievanceHome() {
         <div className="fixed top-6 right-6 z-50 animate-slide-in-right max-w-sm">
           <div className="bg-[#1a3a6b] text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-start gap-3 border border-white/10">
             <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-            <p className="text-sm font-medium leading-relaxed">{toast}</p>
+            <p className="text-sm font-medium leading-relaxed break-words">{toast}</p>
             <button onClick={() => setToast(null)} className="text-white/50 hover:text-white shrink-0 ml-2 mt-0.5">
               <X className="w-4 h-4" />
             </button>
@@ -596,11 +600,8 @@ export default function GrievanceHome() {
                       type="text"
                       className="w-full border border-gray-200 rounded-xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a3a6b] focus:border-transparent transition-all placeholder:text-gray-400"
                       placeholder="e.g., Damaged streetlight on 5th Avenue"
-                      value={description.split('\n')[0] || ''}
-                      onChange={(e) => {
-                        const rest = description.split('\n').slice(1).join('\n')
-                        setDescription(e.target.value + (rest ? '\n' + rest : ''))
-                      }}
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
                     />
                   </div>
 
@@ -1051,9 +1052,15 @@ export default function GrievanceHome() {
                             </div>
                           </div>
                           <div className="flex py-4 border-b border-gray-100">
-                            <span className="w-32 text-[13px] text-gray-500 shrink-0 font-medium">Issue Title</span>
+                            <span className="w-32 text-[13px] text-gray-500 shrink-0 font-medium">Issue Type</span>
                             <span className="text-[13px] font-bold text-gray-900">{optionObj?.title}</span>
                           </div>
+                          {title && (
+                            <div className="flex py-4 border-b border-gray-100">
+                              <span className="w-32 text-[13px] text-gray-500 shrink-0 font-medium">Issue Title</span>
+                              <span className="text-[13px] font-bold text-gray-900">{title}</span>
+                            </div>
+                          )}
                           <div className="flex py-4 border-b border-gray-100">
                             <span className="w-32 text-[13px] text-gray-500 shrink-0 font-medium">Description</span>
                             <p className="text-[13px] text-gray-700 leading-relaxed">{description || 'No description provided.'}</p>
@@ -1061,9 +1068,9 @@ export default function GrievanceHome() {
                           {location.text && (
                             <div className="flex py-4">
                               <span className="w-32 text-[13px] text-gray-500 shrink-0 font-medium">Location</span>
-                              <div className="flex items-center gap-2">
-                                <MapPin className="w-4 h-4 text-red-500 shrink-0" />
-                                <span className="text-[13px] text-gray-900">{location.text}</span>
+                              <div className="flex items-start gap-2 flex-1 min-w-0">
+                                <MapPin className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                                <span className="text-[13px] text-gray-900 break-all leading-relaxed">{location.text}</span>
                               </div>
                             </div>
                           )}

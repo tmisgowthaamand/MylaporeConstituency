@@ -6,8 +6,8 @@ export default function Footer() {
   const { t } = useLang();
 
   return (
-    <footer className="relative h-auto md:min-h-[60vh] flex flex-col px-3 sm:px-4 md:px-8 lg:px-12 xl:px-16 2xl:px-24 pt-6 sm:pt-8 md:pt-8 pb-0 md:py-0 overflow-hidden bg-[#990000] z-0">
-      <div className="absolute inset-0">
+    <footer className="relative h-auto md:min-h-[60vh] flex flex-col px-3 sm:px-4 md:px-8 lg:px-12 xl:px-16 2xl:px-24 pt-6 sm:pt-8 md:pt-8 pb-0 md:py-0 bg-[#990000] z-0 max-w-full">
+      <div className="absolute inset-0 overflow-hidden">
         <img
           alt="Footer background image"
           decoding="async"
@@ -19,7 +19,7 @@ export default function Footer() {
       </div>
 
 
-      <div className="w-full border-b border-white/50 flex flex-col md:flex-row justify-between">
+      <div className="w-full border-b border-white/50 flex flex-col md:flex-row justify-between overflow-hidden">
         <div className="hidden md:flex md:w-[38%] flex-col items-end relative">
           <div className="relative md:w-[28vw] xl:w-[32vw] aspect-[0.85/1] pointer-events-none mt-auto">
             <img
@@ -34,13 +34,13 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="w-full md:pt-[8%] pb-6 md:pb-4 md:w-[55%] flex flex-col justify-between z-10">
-          <div>
-            <h2 className="text-white text-xl sm:text-2xl md:text-3xl font-bold mb-1 md:mb-4">Join the movement</h2>
-            <p className="text-white/90 text-xs sm:text-sm md:text-base leading-relaxed mb-2 md:mb-4">
+        <div className="w-full md:pt-[8%] pb-6 md:pb-4 md:w-[55%] flex flex-col justify-between z-10 overflow-hidden">
+          <div className="max-w-full">
+            <h2 className="text-white text-xl sm:text-2xl md:text-3xl font-bold mb-1 md:mb-4 break-words">Join the movement</h2>
+            <p className="text-white/90 text-xs sm:text-sm md:text-base leading-relaxed mb-2 md:mb-4 break-words">
               Driven by the core vision that everyone deserves everything, Tamilaga Vetri Kazhagam works to advance people-centric politics - for the people, with the people, as one among the people. Be a part of this movement - join the party today and make your contribution count.
             </p>
-            <div className="w-full flex justify-end md:mt-2 mb-4 md:mb-6">
+            <div className="w-full flex justify-end md:mt-2 mb-4 md:mb-6 overflow-hidden">
               <a href="https://tvk.family/" target="_blank" rel="noopener noreferrer" className="w-fit flex justify-between items-center bg-[#FFD700] rounded-lg p-1.5 sm:p-2 md:p-4 flex-shrink-0 text-black font-semibold hover:bg-[#FFD700]/90 transition-colors text-xs sm:text-sm">
                 <p className="mr-1 sm:mr-2">Join TVK</p>
                 <button className="hover:cursor-pointer">
@@ -53,10 +53,10 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 sm:gap-4 md:gap-0 md:flex-row justify-between z-10">
-            <div>
+          <div className="flex flex-col gap-3 sm:gap-4 md:gap-0 md:flex-row justify-between z-10 overflow-x-auto md:overflow-x-visible">
+            <div className="flex-shrink-0">
               <p className="text-[#FFD700] mb-2 md:mb-3 lg:mb-4 text-xs sm:text-sm"></p>
-              <div className="rounded-lg w-fit md:rounded-lg border-white/50 border flex items-center justify-between backdrop-blur-lg overflow-hidden">
+              <div className="rounded-lg w-fit md:rounded-lg border-white/50 border flex items-center justify-between backdrop-blur-lg overflow-hidden flex-shrink-0">
                 <a href="https://x.com/TVKVijayHQ" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#FFD700] hover:bg-white/10 transition-colors duration-200 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-3 lg:px-5 lg:py-3 border-r border-white/50 last:border-r-0" aria-label="Follow us on twitter">
                   <div className="w-4 sm:w-5 md:w-6 flex items-center justify-center">
                     <svg stroke="currentColor" fill="currentColor" strokeWidth="15" viewBox="0 0 512 512" className="w-full h-full" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path></svg>
@@ -84,9 +84,9 @@ export default function Footer() {
                 </a>
               </div>
             </div>
-            <div>
+            <div className="flex-shrink-0">
               <p className="text-[#FFD700] mb-2 md:mb-3 lg:mb-4 text-xs sm:text-sm"></p>
-              <div className="rounded-lg w-fit md:rounded-lg border-white/50 border flex items-center justify-between backdrop-blur-lg overflow-hidden">
+              <div className="rounded-lg w-fit md:rounded-lg border-white/50 border flex items-center justify-between backdrop-blur-lg overflow-hidden flex-shrink-0">
                 <a href="https://x.com/TVKPartyHQ" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#FFD700] hover:bg-white/10 transition-colors duration-200 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-3 lg:px-5 lg:py-3 border-r border-white/50 last:border-r-0" aria-label="Follow us on twitter">
                   <div className="w-4 sm:w-5 md:w-6 flex items-center justify-center">
                     <svg stroke="currentColor" fill="currentColor" strokeWidth="15" viewBox="0 0 512 512" className="w-full h-full" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path></svg>
@@ -113,13 +113,13 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="flex flex-col h-full justify-between py-4 sm:py-6 lg:py-8 z-10 w-full">
-        <div className="w-full flex flex-col md:flex-row justify-between gap-6 md:gap-4">
-          <h2 className="text-[#FFD700] text-lg sm:text-2xl md:text-3xl font-bold mt-0 md:mt-0 mb-4 md:mb-0 md:whitespace-nowrap z-10 relative px-0">
+      <div className="flex flex-col h-full justify-between py-4 sm:py-6 lg:py-8 z-10 w-full overflow-hidden">
+        <div className="w-full flex flex-col md:flex-row justify-between gap-6 md:gap-4 overflow-hidden">
+          <h2 className="text-[#FFD700] text-lg sm:text-2xl md:text-3xl font-bold mt-0 md:mt-0 mb-4 md:mb-0 md:whitespace-nowrap z-10 relative px-0 break-words max-w-full">
             Tamilaga Vettri Kazhagam
           </h2>
 
-          <div className="hidden md:flex gap-4 lg:gap-8 xl:gap-12 2xl:gap-16 md:mt-0">
+          <div className="hidden md:flex gap-4 lg:gap-8 xl:gap-12 2xl:gap-16 md:mt-0 overflow-x-auto md:overflow-x-visible flex-wrap">
             <div className="flex flex-col gap-2 lg:gap-3 xl:gap-6">
               <p className="text-[#FFD700] font-semibold text-xs md:text-sm lg:text-base">2026 - Election</p>
               <div className="flex flex-col gap-1.5 md:gap-2 lg:gap-3">
@@ -206,8 +206,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/30 w-full flex flex-col items-center justify-center mt-6 sm:mt-8 lg:mt-12 pt-3 sm:pt-4 pb-2 text-xs text-white/80 px-0">
-          <span className="mt-3 sm:mt-0 text-center text-[10px] sm:text-xs"> © 2026 Tamilaga Vettri Kazhagam. All rights reserved.</span>
+        <div className="border-t border-white/30 w-full flex flex-col items-center justify-center mt-6 sm:mt-8 lg:mt-12 pt-3 sm:pt-4 pb-2 text-xs text-white/80 px-0 overflow-hidden">
+          <span className="mt-3 sm:mt-0 text-center text-[10px] sm:text-xs break-words max-w-full"> © 2026 Tamilaga Vettri Kazhagam. All rights reserved.</span>
         </div>
       </div>
     </footer>
