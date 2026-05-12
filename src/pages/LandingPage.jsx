@@ -123,13 +123,18 @@ export default function LandingPage() {
 
             {/* Right — Image */}
             <div className="img-reveal relative flex justify-center items-end mt-8 lg:mt-0 w-full max-w-full overflow-visible">
-              <div className="relative w-full h-auto flex items-center justify-center">
+              <div className="relative w-full h-auto max-w-md lg:max-w-lg flex items-center justify-center">
                 <img
                   src="/mla.png"
                   alt="MLA Venkatramanan"
-                  className="w-full h-auto max-w-full block drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)] object-contain"
-                  style={{ imageRendering: 'auto' }}
+                  className="w-full h-auto max-w-full block drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)]"
+                  style={{
+                    imageRendering: 'crisp-edges',
+                    backfaceVisibility: 'hidden',
+                    WebkitFontSmoothing: 'antialiased'
+                  }}
                   loading="eager"
+                  decoding="async"
                 />
               </div>
 

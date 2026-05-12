@@ -11,11 +11,9 @@ export default function Footer() {
         <img
           alt="Footer background image"
           decoding="async"
-          data-nimg="fill"
-          className="object-cover w-full h-full"
-          style={{position:'absolute',height:'100%',width:'100%',left:0,top:0,right:0,bottom:0,color:'transparent',imageRendering:'auto'}}
+          className="absolute inset-0 w-full h-full object-cover"
           src="/bg.png"
-          loading="lazy"
+          loading="eager"
         />
       </div>
 
@@ -26,12 +24,9 @@ export default function Footer() {
             <img
               alt="Thalaivar Vijay"
               decoding="async"
-              data-nimg="fill"
-              className="object-contain object-bottom"
-              style={{position:'absolute',height:'100%',width:'100%',left:0,top:0,right:0,bottom:0,color:'transparent',imageRendering:'high-quality'}}
-              sizes="(min-width:768px) 30vw"
+              className="absolute inset-0 w-full h-full object-contain object-bottom"
               src="/mla.png"
-              loading="lazy"
+              loading="eager"
             />
           </div>
         </div>

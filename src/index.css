@@ -34,7 +34,12 @@
   img {
     max-width: 100%;
     height: auto;
-    image-rendering: auto;
+    image-rendering: crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    will-change: transform;
   }
 
   /* Prevent SVG overflow */
@@ -160,6 +165,13 @@
 .img-reveal {
   animation: imgReveal 0.8s ease-out 0.2s both;
   overflow: visible !important;
+}
+
+/* High-quality image rendering for hero */
+.img-reveal img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  filter: none;
 }
 
 /* Smooth hover lift */
