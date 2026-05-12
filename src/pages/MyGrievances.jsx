@@ -59,11 +59,11 @@ export default function MyGrievances() {
   const pendingCount = requests.length - resolvedCount;
 
   return (
-    <div className="flex min-h-[calc(100vh-80px)] bg-[#f4f6f8]">
+    <div className="flex min-h-[calc(100vh-80px)] flex-col lg:flex-row bg-[#f4f6f8]">
       {/* ── LEFT SIDEBAR (Categories Filter) ── */}
       <div className="hidden lg:flex flex-col w-[260px] xl:w-[280px] shrink-0 bg-[#f0f2f5]">
-        <div className="px-5 py-4 bg-gray-200">
-          <h3 className="text-[11px] font-bold text-gray-600 tracking-widest uppercase">Filter by Status</h3>
+        <div className="px-4 md:px-5 py-3 md:py-4 bg-gray-200">
+          <h3 className="text-[10px] md:text-[11px] font-bold text-gray-600 tracking-widest uppercase">Filter by Status</h3>
         </div>
 
         <div className="overflow-y-auto flex flex-col">
@@ -77,14 +77,14 @@ export default function MyGrievances() {
             <button
               key={filter.id}
               onClick={() => setFilterStatus(filter.id)}
-              className={`w-full text-left px-5 py-3.5 flex items-center justify-between transition-all ${
+              className={`w-full text-left px-4 md:px-5 py-3 md:py-3.5 flex items-center justify-between transition-all text-sm ${
                 filterStatus === filter.id
                   ? 'bg-[#2c4569] text-white font-bold'
                   : 'text-gray-700 hover:bg-white font-medium'
               }`}
             >
-              <span className="text-[15px]">{filter.label}</span>
-              <span className={`text-sm font-bold px-2.5 py-0.5 rounded-md ${
+              <span>{filter.label}</span>
+              <span className={`text-xs font-bold px-2 py-0.5 rounded-md ${
                 filterStatus === filter.id ? 'bg-white/25 text-white' : 'bg-gray-300 text-gray-700'
               }`}>
                 {filter.count}
@@ -96,27 +96,27 @@ export default function MyGrievances() {
 
       {/* ── MAIN CONTENT AREA ── */}
       <div className="flex-1 overflow-y-auto">
-        <div className="max-w-[1100px] mx-auto p-6 lg:p-12">
+        <div className="max-w-[1100px] mx-auto p-3 sm:p-4 md:p-6 lg:p-12">
           {/* Header Section */}
-          <div className="mb-8">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-[#1a3a6b] mb-2">My Requests</h1>
-                <p className="text-gray-600">
+          <div className="mb-6 md:mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-6">
+              <div className="flex-1">
+                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a3a6b] mb-1 md:mb-2">My Requests</h1>
+                <p className="text-xs sm:text-sm md:text-base text-gray-600">
                   {user?.name || 'Mylapore Resident'} — <strong>{requests.length}</strong> grievance{requests.length !== 1 ? 's' : ''} filed
                 </p>
               </div>
               <button
                 onClick={() => navigate('/grievance')}
-                className="bg-[#1a3a6b] hover:bg-[#122d55] text-white px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2 transition-colors shadow-sm"
+                className="bg-[#1a3a6b] hover:bg-[#122d55] text-white px-4 sm:px-6 py-2.5 md:py-3 rounded-lg md:rounded-xl font-bold text-xs sm:text-sm md:text-base flex items-center gap-2 transition-colors shadow-sm whitespace-nowrap"
               >
-                <Plus className="w-4 h-4" /> New Request
+                <Plus className="w-3 sm:w-4 h-3 sm:h-4" /> New Request
               </button>
             </div>
           </div>
 
           {/* Status Tabs (Mobile) */}
-          <div className="lg:hidden mb-6 flex gap-2 overflow-x-auto pb-2">
+          <div className="lg:hidden mb-4 md:mb-6 flex gap-2 overflow-x-auto pb-2">
             {[
               { id: 'all', label: 'All' },
               { id: 'pending', label: 'Open' },
@@ -125,7 +125,7 @@ export default function MyGrievances() {
               <button
                 key={filter.id}
                 onClick={() => setFilterStatus(filter.id)}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-all ${
+                className={`px-3 sm:px-4 py-1.5 md:py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition-all ${
                   filterStatus === filter.id
                     ? 'bg-[#1a3a6b] text-white'
                     : 'bg-white text-gray-600 border border-gray-200'
@@ -138,90 +138,90 @@ export default function MyGrievances() {
 
           {/* Content Section */}
           {loading ? (
-            <div className="text-center py-20">
-              <div className="animate-spin w-8 h-8 border-2 border-[#1a3a6b] border-t-transparent rounded-full mx-auto mb-3" />
-              <p className="text-gray-500">Loading grievances...</p>
+            <div className="text-center py-12 md:py-20">
+              <div className="animate-spin w-6 md:w-8 h-6 md:h-8 border-2 border-[#1a3a6b] border-t-transparent rounded-full mx-auto mb-2 md:mb-3" />
+              <p className="text-xs md:text-base text-gray-500">Loading grievances...</p>
             </div>
           ) : filteredRequests.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center">
-              <div className="text-5xl mb-4">📭</div>
-              <p className="text-gray-600 text-lg mb-6">
+            <div className="bg-white rounded-xl md:rounded-2xl border border-gray-200 p-6 md:p-12 text-center">
+              <div className="text-3xl md:text-5xl mb-3 md:mb-4">📭</div>
+              <p className="text-gray-600 text-sm md:text-lg mb-4 md:mb-6">
                 {filterStatus === 'all' ? 'No grievances raised yet.' : 'No grievances in this status.'}
               </p>
               <button
                 onClick={() => navigate('/grievance')}
-                className="bg-[#1a3a6b] hover:bg-[#122d55] text-white px-6 py-2.5 rounded-lg font-semibold text-sm transition-colors"
+                className="bg-[#1a3a6b] hover:bg-[#122d55] text-white px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl font-semibold text-xs md:text-sm transition-colors"
               >
                 File Your First Grievance
               </button>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 md:space-y-4">
               {filteredRequests.map((g) => {
                 const status = STATUS_LABELS[g.status] || STATUS_LABELS.pending
                 const isClosed = g.status === 'completed' || g.status === 'rejected'
                 return (
-                  <div key={g._id || g.ticketId} className="bg-white rounded-2xl border border-gray-200 p-6 shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className="text-sm font-bold text-[#1a3a6b]">#{g.ticketId}</span>
-                          <span className={`inline-flex items-center px-3 py-1 rounded-lg text-xs font-semibold ${status.cls}`}>
+                  <div key={g._id || g.ticketId} className="bg-white rounded-lg md:rounded-2xl border border-gray-200 p-4 md:p-6 shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3 md:mb-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-2">
+                          <span className="text-xs sm:text-sm font-bold text-[#1a3a6b]">#{g.ticketId}</span>
+                          <span className={`inline-flex items-center px-2 md:px-3 py-0.5 md:py-1 rounded-lg text-xs font-semibold ${status.cls} flex-shrink-0`}>
                             {status.label}
                           </span>
                         </div>
-                        <h3 className="text-[15px] font-bold text-gray-900">{g.optionTitle || g.optionId}</h3>
+                        <h3 className="text-sm md:text-[15px] font-bold text-gray-900 break-words">{g.optionTitle || g.optionId}</h3>
                       </div>
                     </div>
 
-                    <div className="mb-4">
-                      <span className="inline-block bg-[#1a3a6b]/10 text-[#1a3a6b] text-xs font-bold px-3 py-1.5 rounded-lg">
+                    <div className="mb-3 md:mb-4">
+                      <span className="inline-block bg-[#1a3a6b]/10 text-[#1a3a6b] text-xs font-bold px-2 md:px-3 py-1 md:py-1.5 rounded-lg">
                         {g.serviceTitle || g.serviceId}
                       </span>
                     </div>
 
                     {g.location && (
-                      <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
-                        <MapPin className="w-4 h-4" />
-                        {g.location}
+                      <div className="flex items-start gap-2 text-xs md:text-sm text-gray-600 mb-2 md:mb-3 break-words">
+                        <MapPin className="w-3 md:w-4 h-3 md:h-4 flex-shrink-0 mt-0.5" />
+                        <span>{g.location}</span>
                       </div>
                     )}
 
                     {g.description && (
-                      <p className="text-sm text-gray-700 bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
+                      <p className="text-xs md:text-sm text-gray-700 bg-gray-50 rounded-lg p-2 md:p-3 mb-3 md:mb-4 border border-gray-100 break-words">
                         {g.description.substring(0, 200)}{g.description.length > 200 ? '...' : ''}
                       </p>
                     )}
 
                     {g.notes && (
-                      <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
-                        <div className="flex items-center gap-2 text-sm font-bold text-green-800 mb-2">
-                          <CheckCircle2 className="w-4 h-4" />
-                          MLA Team Response:
+                      <div className="bg-green-50 border border-green-200 rounded-lg p-3 md:p-4 mb-3 md:mb-4">
+                        <div className="flex items-start gap-2 text-xs md:text-sm font-bold text-green-800 mb-1 md:mb-2">
+                          <CheckCircle2 className="w-3 md:w-4 h-3 md:h-4 flex-shrink-0 mt-0.5" />
+                          <span>MLA Team Response:</span>
                         </div>
-                        <p className="text-sm text-green-800">{g.notes}</p>
+                        <p className="text-xs md:text-sm text-green-800 break-words">{g.notes}</p>
                         {g.updatedAt && (
-                          <p className="text-xs text-green-700 mt-2">Updated: {formatDate(g.updatedAt)}</p>
+                          <p className="text-xs text-green-700 mt-1 md:mt-2">Updated: {formatDate(g.updatedAt)}</p>
                         )}
                       </div>
                     )}
 
-                    <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-4 h-4" />
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-gray-500 mb-3 md:mb-4 pb-3 md:pb-4 border-b border-gray-100">
+                      <span className="flex items-center gap-1 flex-shrink-0">
+                        <Clock className="w-3 md:w-4 h-3 md:h-4 flex-shrink-0" />
                         {formatDate(g.createdAt)}
                       </span>
-                      <span className={`font-semibold px-2.5 py-1 rounded-full ${isClosed ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
+                      <span className={`font-semibold px-2 md:px-2.5 py-0.5 md:py-1 rounded-full text-xs flex-shrink-0 ${isClosed ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
                         {isClosed ? 'Action Taken' : 'Awaiting Review'}
                       </span>
                     </div>
 
                     {/* Progress Bar */}
                     <div>
-                      <div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-2">
+                      <div className="h-1.5 md:h-2 bg-gray-200 rounded-full overflow-hidden mb-1.5 md:mb-2">
                         <div className={`h-full rounded-full transition-all duration-700 ${status.bar}`} style={{ width: status.pct }} />
                       </div>
-                      <div className="flex justify-between text-[10px] text-gray-400">
+                      <div className="flex justify-between text-[9px] md:text-[10px] text-gray-400 gap-0.5">
                         <span>Received</span><span>Review</span><span>Action</span><span>Resolved</span>
                       </div>
                     </div>

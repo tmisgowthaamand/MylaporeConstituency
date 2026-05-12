@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   MapPin, Send, ChevronRight, AlertCircle, Camera, X,
-  Loader2, ExternalLink, FileText, ArrowLeft, CheckCircle2, Clock, ArrowRight, Info, Check, Lightbulb, Edit2, Upload
+  Loader2, ExternalLink, FileText, ArrowLeft, CheckCircle2, Clock, ArrowRight, Info, Check, Lightbulb, Edit2, Upload, Plus, Search
 } from 'lucide-react'
 import api from '../lib/api'
 import { useAuth } from '../lib/auth'
@@ -278,7 +278,7 @@ export default function GrievanceHome() {
                   }}
                   className={`w-full flex items-center gap-3 px-5 py-3 transition-all duration-200 text-left ${
                     isActive
-                      ? 'bg-[#1a3a6b] text-white font-bold shadow-sm' 
+                      ? 'bg-[#1a3a6b] text-white font-bold shadow-sm'
                       : 'text-gray-600 hover:text-[#2b4162] hover:bg-gray-100 font-medium'
                   }`}
                 >
@@ -478,7 +478,7 @@ export default function GrievanceHome() {
                   'Education': [
                     { img: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&q=80&w=600', title: 'Schools', desc: 'Infrastructure, Teachers' },
                     { img: 'https://images.unsplash.com/photo-1567521464027-f127ff144326?auto=format&fit=crop&q=80&w=600', title: 'Mid-Day Meals', desc: 'Quality, Supply, Nutrition' },
-                    { img: 'https://images.unsplash.com/photo-1461896836934-bd45ba8f8e7b?auto=format&fit=crop&q=80&w=600', title: 'Sports & Arts', desc: 'Grounds, Equipment, Events' },
+                    { img: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&q=80&w=600', title: 'Sports & Arts', desc: 'Grounds, Equipment, Events' },
                   ],
                   'Ration': [
                     { img: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=600', title: 'Ration Card', desc: 'New, Transfer, Correction' },
@@ -882,37 +882,146 @@ export default function GrievanceHome() {
             <div className="animate-fade-in">
               {grievanceId ? (
                 /* === SUCCESS STATE === */
-                <div className="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_12px_rgba(0,0,0,0.04)] p-8 lg:p-16 max-w-3xl mx-auto text-center">
-                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <CheckCircle2 className="w-10 h-10 text-green-700" />
-                  </div>
-                  <h2 className="text-[26px] font-bold text-[#1a3a6b] mb-3">Issue Successfully Submitted!</h2>
-                  <p className="text-gray-500 mb-10">We have received your grievance and sent it to the concerned authority.</p>
-
-                  <div className="bg-[#f4f6f8] rounded-xl p-8 text-left mb-10 border border-gray-200">
-                    <div className="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-2">Tracking ID</div>
-                    <div className="text-2xl font-black text-[#1a3a6b] mb-6">#{grievanceId}</div>
-                    <div className="space-y-3 text-[14px] text-gray-700">
-                      <div className="flex"><span className="w-28 text-gray-500 shrink-0">Category:</span> <span className="font-medium">{serviceObj?.title}</span></div>
-                      <div className="flex"><span className="w-28 text-gray-500 shrink-0">Issue:</span> <span className="font-medium">{optionObj?.title}</span></div>
-                      {location.text && <div className="flex"><span className="w-28 text-gray-500 shrink-0">Location:</span> <span className="font-medium truncate">{location.text}</span></div>}
+                <div className="w-full max-w-5xl mx-auto">
+                  <div className="bg-white rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.1)] overflow-hidden m-3 sm:m-4 md:m-6 lg:m-0">
+                    {/* HEADER SECTION - Simple and Professional */}
+                    <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8 md:py-10 border-b-4 border-[#FF9933]">
+                      <div className="max-w-2xl">
+                        <div className="flex items-start sm:items-center gap-3 sm:gap-4 mb-4">
+                          <div className="w-10 sm:w-12 h-10 sm:h-12 bg-gradient-to-br from-[#FF9933] to-[#E67E22] rounded-full flex items-center justify-center flex-shrink-0">
+                            <CheckCircle2 className="w-5 sm:w-6 h-5 sm:h-6 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-xs sm:text-[10px] font-bold text-gray-500 tracking-widest uppercase">Acknowledgment</div>
+                            <h1 className="text-xl sm:text-2xl md:text-[28px] lg:text-[32px] font-bold text-[#1a3a6b] leading-tight">Issue Successfully Submitted</h1>
+                          </div>
+                        </div>
+                        <p className="text-gray-600 text-sm sm:text-[13px] md:text-[14px] leading-relaxed">
+                          Your grievance has been successfully received and registered in the system. It has been forwarded to the concerned department for appropriate action and resolution.
+                        </p>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <button onClick={() => navigate('/my-grievances')} className="flex-1 py-3.5 rounded-full border-2 border-gray-200 text-[#1a3a6b] font-semibold hover:bg-gray-50 transition-colors text-sm">
-                      Track Status
-                    </button>
-                    <button
-                      onClick={() => {
-                        setPhase(PHASE.CATEGORY)
-                        setServiceObj(null); setOptionObj(null)
-                        resetDownstream()
-                      }}
-                      className="flex-1 bg-[#1a3a6b] hover:bg-[#122d55] text-white rounded-full py-3.5 font-semibold transition-colors text-sm"
-                    >
-                      Report Another Issue
-                    </button>
+                    {/* REFERENCE NUMBER - Prominent Display */}
+                    <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8 md:py-10 bg-gradient-to-r from-[#f8fafc] to-white">
+                      <div className="text-xs font-bold text-gray-500 tracking-widest uppercase mb-2">Your Reference Number</div>
+                      <div className="text-3xl sm:text-4xl md:text-[48px] lg:text-[56px] font-black text-[#1a3a6b] font-mono tracking-wider mb-2 break-all">
+                        {grievanceId}
+                      </div>
+                      <p className="text-xs sm:text-sm md:text-[13px] text-gray-600">
+                        <strong>Keep this number safe.</strong> Use it to track your grievance status at any time. You can share it with others to inquire about your case.
+                      </p>
+                    </div>
+
+                    {/* MAIN CONTENT GRID */}
+                    <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8 md:py-10 border-t border-gray-200">
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-10">
+                        {/* LEFT SIDE - Submitted Details */}
+                        <div className="lg:col-span-2">
+                          <h2 className="text-sm sm:text-base md:text-[16px] font-bold text-[#1a3a6b] uppercase tracking-wider mb-4 md:mb-6">Submitted Details</h2>
+
+                          {/* Details Grid */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
+                            {/* Department */}
+                            <div className="px-4 sm:px-5 md:px-6 py-3 sm:py-4 border-b md:border-b-0 md:border-r border-gray-200">
+                              <div className="text-xs font-bold text-gray-500 tracking-widest uppercase mb-1 sm:mb-2">Department / Category</div>
+                              <div className="text-sm sm:text-[15px] font-semibold text-[#1a3a6b] break-words">{serviceObj?.title}</div>
+                            </div>
+
+                            {/* Issue Type */}
+                            <div className="px-4 sm:px-5 md:px-6 py-3 sm:py-4 border-b md:border-b-0 border-gray-200">
+                              <div className="text-xs font-bold text-gray-500 tracking-widest uppercase mb-1 sm:mb-2">Issue Type</div>
+                              <div className="text-sm sm:text-[15px] font-semibold text-[#1a3a6b] break-words">{optionObj?.title}</div>
+                            </div>
+
+                            {/* Location */}
+                            {location.text && (
+                              <>
+                                <div className="px-4 sm:px-5 md:px-6 py-3 sm:py-4 md:col-span-2 border-t border-gray-200">
+                                  <div className="text-xs font-bold text-gray-500 tracking-widest uppercase mb-1 sm:mb-2">Location</div>
+                                  <div className="text-sm sm:text-[14px] font-medium text-gray-800 flex items-start gap-2">
+                                    <MapPin className="w-3 sm:w-4 h-3 sm:h-4 text-[#1a3a6b] mt-0.5 flex-shrink-0" />
+                                    <span className="break-words">{location.text}</span>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+
+                            {/* Description */}
+                            {description && (
+                              <div className="px-4 sm:px-5 md:px-6 py-3 sm:py-4 md:col-span-2 border-t border-gray-200">
+                                <div className="text-xs font-bold text-gray-500 tracking-widest uppercase mb-1 sm:mb-2">Description</div>
+                                <p className="text-sm sm:text-[14px] text-gray-700 leading-relaxed line-clamp-3 break-words">{description}</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* RIGHT SIDE - SLA & Resolution Timeline */}
+                        <div className="lg:col-span-1">
+                          <h3 className="text-sm sm:text-base md:text-[16px] font-bold text-[#1a3a6b] uppercase tracking-wider mb-4 md:mb-6">What Happens Next</h3>
+
+                          <div className="space-y-3 md:space-y-4">
+                            {/* Step 1 */}
+                            <div className="border-l-4 border-[#FF9933] pl-3 sm:pl-4 pb-3 md:pb-4">
+                              <div className="text-xs font-bold text-[#FF9933] uppercase tracking-widest mb-1">Within 24 Hours</div>
+                              <p className="text-xs sm:text-[13px] font-semibold text-gray-800">Initial Acknowledgment</p>
+                              <p className="text-xs text-gray-600 mt-1">Your grievance will be acknowledged</p>
+                            </div>
+
+                            {/* Step 2 */}
+                            <div className="border-l-4 border-[#0EA5E9] pl-3 sm:pl-4 pb-3 md:pb-4">
+                              <div className="text-xs font-bold text-[#0EA5E9] uppercase tracking-widest mb-1">1-3 Days</div>
+                              <p className="text-xs sm:text-[13px] font-semibold text-gray-800">Officer Assignment</p>
+                              <p className="text-xs text-gray-600 mt-1">Routed to responsible officer</p>
+                            </div>
+
+                            {/* Step 3 */}
+                            <div className="border-l-4 border-[#22C55E] pl-3 sm:pl-4">
+                              <div className="text-xs font-bold text-[#22C55E] uppercase tracking-widest mb-1">7 Working Days</div>
+                              <p className="text-xs sm:text-[13px] font-semibold text-gray-800">Expected Resolution</p>
+                              <p className="text-xs text-gray-600 mt-1">Target completion timeframe</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* IMPORTANT NOTICE */}
+                      <div className="bg-[#FEF08A] border-l-4 border-[#EAB308] rounded px-4 sm:px-5 md:px-6 py-3 sm:py-4 mb-6 md:mb-8">
+                        <p className="text-xs sm:text-sm md:text-[13px] text-gray-900">
+                          <strong>✓ Confirmation</strong> has been sent to your registered email and phone number. A tracking link has also been shared for real-time status updates.
+                        </p>
+                      </div>
+
+                      {/* ACTION BUTTONS */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                        <button
+                          onClick={() => navigate('/track')}
+                          className="px-4 sm:px-6 py-3 sm:py-3.5 md:py-4 bg-[#1a3a6b] hover:bg-[#122d55] text-white font-semibold rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 shadow-sm hover:shadow-md text-xs sm:text-sm md:text-[14px]"
+                        >
+                          <Search className="w-3 sm:w-4 h-3 sm:h-4" />
+                          Track Status Now
+                        </button>
+                        <button
+                          onClick={() => {
+                            setPhase(PHASE.CATEGORY)
+                            setServiceObj(null); setOptionObj(null)
+                            resetDownstream()
+                          }}
+                          className="px-4 sm:px-6 py-3 sm:py-3.5 md:py-4 border-2 border-gray-300 text-[#1a3a6b] font-semibold rounded-lg hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center gap-2 text-xs sm:text-sm md:text-[14px]"
+                        >
+                          <Plus className="w-3 sm:w-4 h-3 sm:h-4" />
+                          File New Grievance
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* FOOTER - Important Info */}
+                    <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-4 sm:py-6 md:py-8 bg-gray-50 border-t border-gray-200">
+                      <p className="text-xs sm:text-sm md:text-[12px] text-gray-600 leading-relaxed">
+                        You can access your grievance details anytime using your reference number. For assistance, contact the grievance help desk or email us. Your concern is important to us.
+                      </p>
+                    </div>
                   </div>
                 </div>
               ) : (
@@ -1053,7 +1162,7 @@ export default function GrievanceHome() {
                       {/* Did You Know Card */}
                       <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-[20px] border border-blue-200 p-6 shadow-[0_2px_8px_rgba(79,70,229,0.08)]">
                         <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0 flex-shrink-0">
+                          <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
                             <Lightbulb className="w-5 h-5 text-blue-600" />
                           </div>
                           <div>

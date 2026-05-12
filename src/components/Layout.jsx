@@ -1,4 +1,5 @@
 import { Outlet, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import Topbar from './Topbar'
 import Footer from './Footer'
 
@@ -10,6 +11,11 @@ import Footer from './Footer'
 export default function Layout() {
   const { pathname } = useLocation()
   const minimal = pathname === '/login' || pathname === '/register'
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
 
   if (minimal) {
     return (

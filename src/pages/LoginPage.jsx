@@ -83,84 +83,84 @@ export default function LoginPage() {
         />
 
         {/* ─── RIGHT: LOGIN FORM ─── */}
-        <div className="flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-16 py-12 lg:py-8 overflow-y-auto">
+        <div className="flex-1 flex flex-col justify-center px-3 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 sm:py-12 lg:py-8 overflow-y-auto">
           <div className="w-full max-w-md mx-auto">
 
             {/* Back button */}
-            <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 mb-8 transition-colors">
-              <ArrowLeft className="w-4 h-4" /> Back
+            <Link to="/" className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-gray-400 hover:text-gray-600 mb-6 sm:mb-8 transition-colors">
+              <ArrowLeft className="w-3 sm:w-4 h-3 sm:h-4" /> Back
             </Link>
 
             {/* TVK Brand header */}
-            <div className="flex items-center gap-3 mb-10">
-              <img src="/e.jpg" alt="TVK" className="w-14 h-14 rounded-full object-cover shadow-md border-2 border-yellow-300" />
-              <div>
-                <p className="text-red-800 font-bold text-lg leading-tight">தமிழக வெற்றிக் கழகம்</p>
+            <div className="flex items-start sm:items-center gap-2 sm:gap-3 mb-8 sm:mb-10">
+              <img src="/e.jpg" alt="TVK" className="w-10 sm:w-12 lg:w-14 h-10 sm:h-12 lg:h-14 rounded-full object-cover shadow-md border-2 border-yellow-300 flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-red-800 font-bold text-sm sm:text-base lg:text-lg leading-tight">தமிழக வெற்றிக் கழகம்</p>
                 <p className="text-gray-500 text-xs font-semibold">பிறப்பொக்கும் எல்லா உயிர்க்கும்</p>
               </div>
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome Back!</h1>
-            <p className="text-gray-600 text-base mb-10">Login to the Mylapore Citizen Portal</p>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-1 sm:mb-2">Welcome Back!</h1>
+            <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-6 sm:mb-8 md:mb-10">Login to the Mylapore Citizen Portal</p>
 
             {/* Mobile leader image */}
-            <div className="lg:hidden flex justify-center mb-8">
-              <img src="/93bb2e14-70f0-463c-96c1-7a4fec0c9e25.png" alt="TVK" className="w-48 object-contain" />
+            <div className="lg:hidden flex justify-center mb-6 sm:mb-8">
+              <img src="/93bb2e14-70f0-463c-96c1-7a4fec0c9e25.png" alt="TVK" className="w-32 sm:w-40 md:w-48 object-contain" />
             </div>
 
             {error && (
-              <div className="mb-6 p-4 bg-red-50 text-red-700 text-sm rounded-xl border border-red-200 flex items-center gap-3">
-                <ShieldCheck className="w-5 h-5 shrink-0" /> {error}
+              <div className="mb-4 md:mb-6 p-3 md:p-4 bg-red-50 text-red-700 text-xs md:text-sm rounded-lg md:rounded-xl border border-red-200 flex items-start gap-2 md:gap-3">
+                <ShieldCheck className="w-4 md:w-5 h-4 md:h-5 shrink-0 mt-0.5" /> <span>{error}</span>
               </div>
             )}
             {info && step === 2 && !error && (
-              <div className="mb-6 p-4 bg-green-50 text-green-700 text-sm rounded-xl border border-green-200 flex items-center gap-3">
-                <ShieldCheck className="w-5 h-5 shrink-0" /> {info}
+              <div className="mb-4 md:mb-6 p-3 md:p-4 bg-green-50 text-green-700 text-xs md:text-sm rounded-lg md:rounded-xl border border-green-200 flex items-start gap-2 md:gap-3">
+                <ShieldCheck className="w-4 md:w-5 h-4 md:h-5 shrink-0 mt-0.5" /> <span>{info}</span>
               </div>
             )}
 
             {step === 1 ? (
-              <form onSubmit={requestOtp} className="space-y-6">
+              <form onSubmit={requestOtp} className="space-y-4 md:space-y-6">
                 <div>
-                  <label className="block text-sm font-bold text-gray-800 mb-2.5">Mobile Number</label>
-                  <div className="flex border-2 border-gray-300 rounded-xl focus-within:ring-2 focus-within:ring-yellow-400 focus-within:border-yellow-400 transition-all bg-white">
-                    <span className="px-4 flex items-center text-gray-600 text-sm font-semibold border-r-2 border-gray-300 bg-gray-50 rounded-l-xl">+91</span>
+                  <label className="block text-xs md:text-sm font-bold text-gray-800 mb-1.5 md:mb-2.5">Mobile Number</label>
+                  <div className="flex border-2 border-gray-300 rounded-lg md:rounded-xl focus-within:ring-2 focus-within:ring-yellow-400 focus-within:border-yellow-400 transition-all bg-white">
+                    <span className="px-2 md:px-4 flex items-center text-gray-600 text-xs md:text-sm font-semibold border-r-2 border-gray-300 bg-gray-50 rounded-l-lg md:rounded-l-xl">+91</span>
                     <input
                       type="tel"
                       autoComplete="tel-national"
                       inputMode="numeric"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                      className="flex-1 px-4 py-3.5 text-gray-900 placeholder-gray-400 focus:outline-none rounded-r-xl bg-white text-lg font-semibold"
+                      className="flex-1 px-3 md:px-4 py-2.5 md:py-3.5 text-gray-900 placeholder-gray-400 focus:outline-none rounded-r-lg md:rounded-r-xl bg-white text-base md:text-lg font-semibold"
                       placeholder="Enter mobile number"
                       required
                       autoFocus
                     />
                   </div>
-                  <p className="text-xs text-gray-500 mt-2 font-medium">We'll send a 6-digit code via WhatsApp.</p>
+                  <p className="text-xs text-gray-500 mt-1.5 md:mt-2 font-medium">We'll send a 6-digit code via WhatsApp.</p>
                 </div>
 
                 <button
                   type="submit"
                   disabled={busy || phone.length !== 10}
-                  className="w-full py-4 rounded-xl text-base font-bold bg-yellow-400 text-gray-900 hover:bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg"
+                  className="w-full py-2.5 md:py-4 rounded-lg md:rounded-xl text-sm md:text-base font-bold bg-yellow-400 text-gray-900 hover:bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg"
                 >
-                  {busy ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Send OTP'}
+                  {busy ? <Loader2 className="w-4 md:w-5 h-4 md:h-5 animate-spin mx-auto" /> : 'Send OTP'}
                 </button>
               </form>
             ) : (
-              <form onSubmit={verifyOtp} className="space-y-6">
+              <form onSubmit={verifyOtp} className="space-y-4 md:space-y-6">
                 <button
                   type="button"
                   onClick={() => { setStep(1); setOtp(''); setError(''); setInfo('') }}
-                  className="text-sm text-gray-600 hover:text-gray-800 flex items-center gap-1 font-medium"
+                  className="text-xs md:text-sm text-gray-600 hover:text-gray-800 flex items-center gap-1 font-medium"
                 >
-                  <ArrowLeft className="w-3.5 h-3.5" /> Edit number
+                  <ArrowLeft className="w-3 md:w-3.5 h-3 md:h-3.5" /> Edit number
                 </button>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-800 mb-2.5">6-Digit Code</label>
+                  <label className="block text-xs md:text-sm font-bold text-gray-800 mb-1.5 md:mb-2.5">6-Digit Code</label>
                   <input
                     ref={otpRef}
                     type="text"
@@ -169,17 +169,17 @@ export default function LoginPage() {
                     maxLength={6}
                     value={otp}
                     onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                    className="w-full px-4 py-4 border-2 border-gray-300 rounded-xl text-gray-900 font-bold tracking-[0.5em] text-center text-2xl focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all bg-white"
+                    className="w-full px-3 md:px-4 py-3 md:py-4 border-2 border-gray-300 rounded-lg md:rounded-xl text-gray-900 font-bold tracking-[0.5em] text-center text-lg md:text-2xl focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all bg-white"
                     placeholder="••••••"
                     required
                   />
-                  <div className="flex items-center justify-between mt-3 text-xs">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-2 md:mt-3 text-xs gap-2">
                     <span className="text-gray-500 font-medium">Code expires in 5 minutes</span>
                     <button
                       type="button"
                       onClick={requestOtp}
                       disabled={secondsLeft > 0 || busy}
-                      className="font-bold text-yellow-600 hover:text-yellow-700 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
+                      className="font-bold text-yellow-600 hover:text-yellow-700 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors text-left"
                     >
                       {secondsLeft > 0 ? `Resend in ${secondsLeft}s` : 'Resend OTP'}
                     </button>
@@ -189,14 +189,14 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={busy || otp.length !== 6}
-                  className="w-full py-4 rounded-xl text-base font-bold bg-yellow-400 text-gray-900 hover:bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg"
+                  className="w-full py-2.5 md:py-4 rounded-lg md:rounded-xl text-sm md:text-base font-bold bg-yellow-400 text-gray-900 hover:bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg"
                 >
-                  {busy ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Verify & Sign In'}
+                  {busy ? <Loader2 className="w-4 md:w-5 h-4 md:h-5 animate-spin mx-auto" /> : 'Verify & Sign In'}
                 </button>
               </form>
             )}
 
-            <div className="relative my-10">
+            <div className="relative my-6 md:my-10">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-200"></div>
               </div>

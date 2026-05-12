@@ -114,26 +114,26 @@ export default function RegisterPage() {
         />
 
         {/* ─── RIGHT: REGISTER FORM ─── */}
-        <div className="flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-16 py-12 lg:py-8 overflow-y-auto">
+        <div className="flex-1 flex flex-col justify-center px-3 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 sm:py-12 lg:py-8 overflow-y-auto">
           <div className="w-full max-w-md mx-auto">
 
             {/* Back button */}
-            <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 mb-8 transition-colors">
-              <ArrowLeft className="w-4 h-4" /> Back
+            <Link to="/" className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-gray-400 hover:text-gray-600 mb-6 sm:mb-8 transition-colors">
+              <ArrowLeft className="w-3 sm:w-4 h-3 sm:h-4" /> Back
             </Link>
 
             {/* TVK Brand header */}
-            <div className="flex items-center gap-3 mb-10">
-              <img src="/e.jpg" alt="TVK" className="w-14 h-14 rounded-full object-cover shadow-md border-2 border-yellow-300" />
-              <div>
-                <p className="text-red-800 font-bold text-lg leading-tight">தமிழக வெற்றிக் கழகம்</p>
+            <div className="flex items-start sm:items-center gap-2 sm:gap-3 mb-8 sm:mb-10">
+              <img src="/e.jpg" alt="TVK" className="w-10 sm:w-12 lg:w-14 h-10 sm:h-12 lg:h-14 rounded-full object-cover shadow-md border-2 border-yellow-300 flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-red-800 font-bold text-sm sm:text-base lg:text-lg leading-tight">தமிழக வெற்றிக் கழகம்</p>
                 <p className="text-gray-500 text-xs font-semibold">பிறப்பொக்கும் எல்லா உயிர்க்கும்</p>
               </div>
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Create Account</h1>
-            <p className="text-gray-600 text-base mb-10">Register for the Mylapore Citizen Portal</p>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-1 sm:mb-2">Create Account</h1>
+            <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-6 sm:mb-8 md:mb-10">Register for the Mylapore Citizen Portal</p>
 
             {/* Mobile leader image */}
             <div className="lg:hidden flex justify-center mb-8">

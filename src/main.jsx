@@ -14,3 +14,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </React.StrictMode>,
 )
+
+// Register service worker to handle preloadResponse properly
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {
+    // Service worker registration failed (expected in dev), ignore
+  })
+}
+

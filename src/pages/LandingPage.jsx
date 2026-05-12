@@ -65,39 +65,38 @@ export default function LandingPage() {
           <img src="/bg.png" alt="Background" className="w-full h-full object-cover opacity-15" />
         </div>
 
-        <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-12 sm:py-16 md:py-24 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16 items-center">
 
             {/* Left — Copy */}
             <div>
-              <div className="hero-anim inline-flex items-center gap-2 bg-saffron/20 text-saffron text-[11px] font-bold px-3.5 py-1.5 rounded-full mb-6 tracking-wider">
+              <div className="hero-anim inline-flex items-center gap-2 bg-saffron/20 text-saffron text-[10px] sm:text-[11px] font-bold px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full mb-4 sm:mb-6 tracking-wider">
                 <span className="w-1.5 h-1.5 rounded-full bg-saffron dot-pulse" />{t('portalActive')}
               </div>
 
-              <h1 className="hero-anim hero-anim-d1 text-[2rem] md:text-[2.75rem] lg:text-[3.25rem] font-bold font-sans text-white leading-[1.15] tracking-tight">
+              <h1 className="hero-anim hero-anim-d1 text-lg sm:text-2xl md:text-[2.75rem] lg:text-[3.25rem] font-bold font-sans text-white leading-[1.15] tracking-tight">
                 {t('heroTitle1')}<br />{t('heroTitle2')}{' '}
                 <span className="text-saffron">{t('heroTitle3')}</span>
               </h1>
 
-              <p className="hero-anim hero-anim-d2 text-white/80 text-[15px] md:text-base leading-relaxed mt-6 max-w-md">
+              <p className="hero-anim hero-anim-d2 text-white/80 text-xs sm:text-sm md:text-base leading-relaxed mt-4 sm:mt-6 max-w-md">
                 {t('heroDesc')} <strong className="text-white">{t('heroMLA')}</strong>.
                 {t('heroResponse')} <strong className="text-saffron">{t('heroResponseDays')}</strong>.
               </p>
 
-              <div className="hero-anim hero-anim-d3 flex flex-wrap gap-3 mt-8">
+              <div className="hero-anim hero-anim-d3 flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 mt-6 sm:mt-8">
                 {user ? (
                   <>
-                    <button onClick={() => go('/grievance')} className="bg-saffron text-white px-8 py-3.5 rounded-xl text-sm font-bold flex items-center gap-2.5 lift hover:bg-saffron/90 transition-colors shadow-lg shadow-saffron/20">
-                      <FileText className="w-4 h-4" /> File a Grievance
+                    <button onClick={() => go('/grievance')} className="bg-saffron text-white px-4 sm:px-8 py-2.5 sm:py-3.5 rounded-lg md:rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 lift hover:bg-saffron/90 transition-colors shadow-lg shadow-saffron/20">
+                      <FileText className="w-3 sm:w-4 h-3 sm:h-4" /> File a Grievance
                     </button>
-                    <button onClick={() => go('/my-grievances')} className="bg-white/10 border border-white/20 backdrop-blur-sm text-white px-8 py-3.5 rounded-xl text-sm font-semibold flex items-center gap-2.5 lift hover:bg-white/20 transition-colors shadow-lg shadow-black/10">
-                      My Requests <ArrowRight className="w-4 h-4" />
+                    <button onClick={() => go('/my-grievances')} className="bg-white/10 border border-white/20 backdrop-blur-sm text-white px-4 sm:px-8 py-2.5 sm:py-3.5 rounded-lg md:rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 lift hover:bg-white/20 transition-colors shadow-lg shadow-black/10">
+                      My Requests <ArrowRight className="w-3 sm:w-4 h-3 sm:h-4" />
                     </button>
                   </>
                 ) : (
                   <>
-                    <button onClick={() => go('/login')} className="bg-saffron text-white px-8 py-3.5 rounded-xl text-sm font-bold flex items-center gap-2.5 lift hover:bg-saffron/90 transition-colors shadow-lg shadow-saffron/20">
-                      <UserPlus className="w-4 h-4" /> Log In
+                    <button onClick={() => go('/login')} className="bg-saffron text-white px-4 sm:px-8 py-2.5 sm:py-3.5 rounded-lg md:rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 lift hover:bg-saffron/90 transition-colors shadow-lg shadow-saffron/20">
                     </button>
                     <button onClick={() => go('/register')} className="bg-white/10 border border-white/20 backdrop-blur-sm text-white px-8 py-3.5 rounded-xl text-sm font-semibold flex items-center gap-2.5 lift hover:bg-white/20 transition-colors shadow-lg shadow-black/10">
                       Register Now <ArrowRight className="w-4 h-4" />
