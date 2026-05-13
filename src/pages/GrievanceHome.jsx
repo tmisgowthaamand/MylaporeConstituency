@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   MapPin, Send, ChevronRight, AlertCircle, Camera, X,
-  Loader2, ExternalLink, FileText, ArrowLeft, CheckCircle2, Clock, ArrowRight, Info, Check, Lightbulb, Edit2, Upload, Plus, Search
+  Loader2, ExternalLink, FileText, ArrowLeft, CheckCircle2, Clock, ArrowRight, Info, Check, Lightbulb, Edit2, Upload, Plus, Search, Phone
 } from 'lucide-react'
 import api from '../lib/api'
 import { useAuth } from '../lib/auth'
@@ -51,6 +51,30 @@ const LABELS = {
 const DEFAULT_KIND = 'ticket'
 
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024
+
+// Frontend fallback: enriches backend options with gov portal links & contacts
+// from the master spreadsheet. Keyed by sub-category title (case-sensitive).
+const RESOURCE_MAP = {
+  // Revenue
+  'Income Certificate Issue': { url: 'https://www.tnesevai.tn.gov.in/Citizen/PortalLogin.aspx', contact: '914440164907' },
+  'Disaster Relief': { url: 'https://it.tn.gov.in/en/IT_Infrastructure/Tamilnadu_Disaster_Recovery_Centre', contact: '044-2567 0783' },
+  'Death / Birth Certificate': { url: 'https://www.crstn.org/birth_death_tn/', contact: null },
+  // Ration
+  'Update ration card': { url: 'https://www.tnpds.gov.in/pages/registeracard/register-a-card-status.xhtml', contact: 'https://www.tnpds.gov.in/pages/staticPages/contact-us.xhtml' },
+  // Agriculture
+  'Flood Compensation': { url: 'https://www.tnagrisnet.tn.gov.in/login', contact: '044-28583323' },
+  // Education
+  'Job Recruitment': { url: 'https://www.tnprivatejobs.tn.gov.in/', contact: '044-22500900 / 044-22500911' },
+  // Health
+  'Health': { url: 'https://tnhealth.tn.gov.in/', contact: '044-2231 0989 / 044-2232 1090 / 044-2232 1085 / 044-2234 2142' },
+  'Vaccination': { url: 'https://uwin.mohfw.gov.in/home', contact: '0120-4783222' },
+  'Basic medicine': { url: 'https://tnhealth.tn.gov.in/dph/dphis.php', contact: null },
+  'Tamilnadu camp & others': { url: 'https://www.nhm.tn.gov.in/en/node/6367', contact: '044-29510304' },
+  // Law & Order
+  'Legal': { url: 'https://tamilnadu.nalsa.gov.in/', contact: '044-25342834 / 044-25343353 / 044-25343144' },
+  "CITIZEN'S CHARTER OF TAMIL NADU POLICE": { url: 'https://eservices.tnpolice.gov.in:8443/archived_cctns/CitizenCharter', contact: '044-24957878 / 044-24958585' },
+  'Safety': { url: 'https://dish.tn.gov.in/#/', contact: '044-22502103 / 044-22502104' },
+}
 
 export default function GrievanceHome() {
   const { user } = useAuth()
@@ -247,6 +271,19 @@ export default function GrievanceHome() {
   }
 
   const pickOption = (o) => {
+    // Enrich option with frontend resource map (gov links & contacts)
+    const override = RESOURCE_MAP[o.title]
+    if (override) {
+      o = {
+        ...o,
+        action: {
+          ...(o.action || {}),
+          kind: o.action?.kind || 'url',
+          url: override.url || o.action?.url,
+          contact: override.contact || o.action?.contact,
+        }
+      }
+    }
     setOptionObj(o); resetDownstream()
     const k = o.action?.kind || DEFAULT_KIND
     if (k === 'url' || k === 'pdf') setPhase(PHASE.CTA)
@@ -1288,7 +1325,19 @@ export default function GrievanceHome() {
               <h2 className="text-2xl font-bold text-[#2b4162] mb-2">
                 {kind === 'pdf' ? '📄 Download Document' : '🔗 Open Service Portal'}
               </h2>
-              <p className="text-sm text-gray-500 mb-8">{optionObj.title}</p>
+              <p className="text-sm text-gray-500 mb-4">{optionObj.title}</p>
+
+              {/* Contact Information */}
+              {action.contact && (
+                <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+                  <Phone className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-xs font-semibold text-blue-900 uppercase tracking-wider mb-1">Contact</p>
+                    <p className="text-sm text-blue-800">{action.contact}</p>
+                  </div>
+                </div>
+              )}
+
               <div className="flex flex-col-reverse sm:flex-row gap-4 mt-8">
                 <button onClick={() => setPhase(PHASE.OPTION)} className="w-full sm:w-auto justify-center px-8 py-3.5 rounded-xl border border-gray-200 text-gray-600 font-bold hover:bg-gray-50 transition-colors">
                   Back

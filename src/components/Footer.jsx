@@ -5,6 +5,7 @@ import { useLang } from '../i18n';
 export default function Footer() {
   const { t } = useLang();
 
+
   return (
     <footer className="relative w-full bg-[#990000] overflow-x-hidden">
       {/* Background */}
@@ -34,7 +35,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Content - Full width on mobile, 55% on desktop */}
+          {/* Content - Full width on mobile, 65% on desktop */}
           <div className="w-full md:w-[65%] xl:w-[70%] px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-12 flex flex-col justify-between">
             <div>
               <h2 className="text-white text-xl sm:text-2xl md:text-3xl font-bold mb-3 md:mb-4">Join the movement</h2>
@@ -72,6 +73,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
+
 
       {/* Footer Links Section */}
       <div className="relative z-10 w-full px-3 sm:px-4 md:px-6 lg:px-8 py-8 sm:py-10 md:py-12">
@@ -129,7 +131,6 @@ export default function Footer() {
               <div className="flex flex-wrap gap-3 text-xs text-white/90">
                 <a href="/en/election-candidates/tamilnadu" className="hover:text-white">Candidates</a>
                 <a href="/en/manifesto" className="hover:text-white">Guarantees</a>
-                <a href="/en/disclosures/TN2026C7form" className="hover:text-white">Disclosures</a>
               </div>
             </div>
             <div>
@@ -137,7 +138,6 @@ export default function Footer() {
               <div className="flex flex-wrap gap-3 text-xs text-white/90">
                 <a href="/en/about-party" className="hover:text-white">About</a>
                 <a href="/en/ideology" className="hover:text-white">Ideology</a>
-                <a href="/en/action-plan" className="hover:text-white">Action</a>
               </div>
             </div>
             <div>
@@ -145,14 +145,12 @@ export default function Footer() {
               <div className="flex flex-wrap gap-3 text-xs text-white/90">
                 <a href="/en/leadership" className="hover:text-white">Leadership</a>
                 <a href="/en/wings" className="hover:text-white">Wings</a>
-                <a href="/en/committees" className="hover:text-white">Committee</a>
               </div>
             </div>
             <div>
               <h4 className="text-[#FFD700] font-semibold text-xs mb-2">Updates</h4>
               <div className="flex flex-wrap gap-3 text-xs text-white/90">
-                <a href="/en/resolutions" className="hover:text-white">Resolutions</a>
-                <a href="/en/announcements" className="hover:text-white">News</a>
+                <a href="/en/resolutions" className="hover:text-white">News</a>
                 <a href="/en/events" className="hover:text-white">Events</a>
               </div>
             </div>
