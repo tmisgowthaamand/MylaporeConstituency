@@ -113,7 +113,7 @@ export default function TrackStatus() {
                       <div className="font-bold text-sm">{s.title?.charAt(0)}</div>
                     )}
                   </div>
-                  <span className="text-[20px] truncate">{s.title}</span>
+                  <span className="text-sm truncate">{s.title}</span>
                   {isActive && (
                     <CheckCircle2 className="w-5 h-5 ml-auto shrink-0" />
                   )}
