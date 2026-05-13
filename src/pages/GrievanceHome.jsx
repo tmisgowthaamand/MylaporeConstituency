@@ -594,9 +594,10 @@ export default function GrievanceHome() {
                     { img: 'https://images.unsplash.com/photo-1586769852044-692d6e3703f0?auto=format&fit=crop&q=80&w=600', title: 'Disaster Relief', desc: 'Flood, Fire, Compensation' },
                   ],
                   'Health': [
-                    { img: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=600', title: 'Hospitals & PHC', desc: 'Treatment, Beds, Staff' },
+                    { img: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=600', title: 'Health', desc: 'Hospitals, Treatments, Consultations' },
                     { img: 'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&q=80&w=600', title: 'Vaccination', desc: 'Camps, Schedules, Records' },
-                    { img: 'https://images.unsplash.com/photo-1587745416684-47953f16f02f?auto=format&fit=crop&q=80&w=600', title: 'Ambulance', desc: '108 Service, Emergency' },
+                    { img: 'https://images.unsplash.com/photo-1587745416684-47953f16f02f?auto=format&fit=crop&q=80&w=600', title: 'Basic medicine', desc: 'Basic Medicines, Prescriptions' },
+                    { img: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&q=80&w=600', title: 'Tamilnadu camp & others', desc: 'Health Camps, Checkups' },
                   ],
                   'Education': [
                     { img: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&q=80&w=600', title: 'Schools', desc: 'Infrastructure, Teachers' },

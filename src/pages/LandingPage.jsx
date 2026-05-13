@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useRef, useCallback, useState } from 'react'
-import { ShieldCheck, UserPlus, Search, ArrowRight, MapPin, FileText, Eye, Phone, Mail, Globe, ChevronRight, AlertCircle, CheckCircle2, Timer, Users } from 'lucide-react'
+import { ShieldCheck, UserPlus, Search, ArrowRight, MapPin, FileText, Eye, Phone, Mail, Globe, ChevronRight, AlertCircle, CheckCircle2, Timer, Users, Upload, Clock, Lock, Code } from 'lucide-react'
 import { useLang } from '../i18n'
 import { useAuth } from '../lib/auth'
 import api from '../lib/api'
@@ -145,31 +145,149 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ SERVICES ═══════ */}
-      <section className="py-12 sm:py-16 md:py-20 bg-white overflow-hidden">
-        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6">
-          <div className="text-center mb-14 rv rv-up">
-            <p className="text-xs sm:text-sm font-bold text-saffron uppercase tracking-[4px] mb-3">{t('whatYouCanDo')}</p>
-            <h2 className="text-3xl sm:text-4xl md:text-4xl font-bold font-sans text-navy">{t('ourServices')}</h2>
-            <div className="section-line mx-auto mt-4" />
+      <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-[#f8f9fc] to-white relative overflow-hidden">
+        {/* Decorative dots top-left */}
+        <div className="absolute top-8 left-8 grid grid-cols-4 gap-1.5 opacity-30">
+          {[...Array(16)].map((_, i) => (
+            <div key={i} className="w-1.5 h-1.5 rounded-full bg-blue-300"></div>
+          ))}
+        </div>
+        {/* Decorative blue blob right */}
+        <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-72 h-72 bg-blue-100/40 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-16 rv rv-up">
+            <p className="text-xs sm:text-sm font-bold text-blue-600 uppercase tracking-[5px] mb-4">{t('whatYouCanDo')}</p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0f1b3d] mb-5">{t('ourServices')}</h2>
+            <div className="flex items-center justify-center gap-1.5 mx-auto mb-5">
+              <div className="w-10 h-1 bg-blue-600 rounded-full"></div>
+              <div className="w-10 h-1 bg-green-500 rounded-full"></div>
+              <div className="w-10 h-1 bg-orange-500 rounded-full"></div>
+            </div>
+            <p className="text-gray-500 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+              Modern, secure and efficient tools to simplify your grievance redressal experience.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Service Cards */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7 lg:gap-8">
             {[
-                { Icon: FileText, title: t('fileGrievance'), desc: t('fileGrievanceDesc'), to: '/grievance', iconBg: 'bg-[#1a3a6b]', iconText: 'text-white' },
-                { Icon: Search, title: t('trackStatus'), desc: t('trackStatusDesc'), to: '/track', iconBg: 'bg-[#138808]', iconText: 'text-white' },
-                { Icon: Eye, title: t('viewResponse'), desc: t('viewResponseDesc'), to: '/my-grievances', iconBg: 'bg-[#f26522]', iconText: 'text-white' },
-              ].map((s, i) => (
-                <div key={i} className="rv rv-up bg-white rounded-2xl p-8 border-2 border-gray-200 cursor-pointer group lift shadow-sm hover:shadow-xl hover:border-gray-300 transition-all" data-d={i + 1} onClick={() => go(s.to)}>
-                  <div className={`icon-box w-20 h-20 rounded-xl ${s.iconBg} flex items-center justify-center mb-6 shadow-md group-hover:scale-110 transition-transform`}>
-                    <s.Icon className={`w-9 h-9 ${s.iconText}`} />
+              {
+                title: t('fileGrievance'),
+                desc: t('fileGrievanceDesc'),
+                to: '/grievance',
+                number: '01',
+                btnText: 'Get started',
+                features: ['GPS location tagging', 'Upload photos & details', 'Instant reference ID'],
+                hex: '#2563eb',
+                hoverHex: '#1d4ed8',
+                lightHex: '#dbeafe',
+                dotHex: '#93c5fd',
+                svgIcon: (
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                    <path d="M8 13h2" /><path d="M8 17h2" />
+                    <path d="M14 13h.01" /><path d="M14 17h.01" />
+                  </svg>
+                ),
+              },
+              {
+                title: t('trackStatus'),
+                desc: t('trackStatusDesc'),
+                to: '/track',
+                number: '02',
+                btnText: 'Track now',
+                features: ['Real-time status updates', 'Status timeline', 'SMS & email notifications'],
+                hex: '#16a34a',
+                hoverHex: '#15803d',
+                lightHex: '#dcfce7',
+                dotHex: '#86efac',
+                svgIcon: (
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                    <path d="M8 21h8" /><path d="M12 17v4" />
+                    <path d="M7 13l3-4 3 2 4-5" />
+                    <circle cx="17" cy="6" r="1.5" fill="white" stroke="none" />
+                  </svg>
+                ),
+              },
+              {
+                title: t('viewResponse'),
+                desc: t('viewResponseDesc'),
+                to: '/my-grievances',
+                number: '03',
+                btnText: 'View responses',
+                features: ['Official response', 'Resolution updates', 'Download documents'],
+                hex: '#f97316',
+                hoverHex: '#ea580c',
+                lightHex: '#fff7ed',
+                dotHex: '#fdba74',
+                svgIcon: (
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+                    <path d="M14 2v6h6" />
+                    <circle cx="13.5" cy="15.5" r="2.5" />
+                    <path d="M15.4 17.4 17 19" />
+                  </svg>
+                ),
+              },
+            ].map((s, i) => (
+              <div key={i} className="rv rv-up bg-white rounded-2xl px-8 pt-10 pb-8 border border-gray-100 shadow-[0_2px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col" data-d={i + 1}>
+                {/* Icon + Number */}
+                <div className="flex items-start justify-between mb-8">
+                  {/* Icon with dot-grid border */}
+                  <div className="relative w-[88px] h-[88px]">
+                    {/* Dot grid background */}
+                    <div className="absolute inset-0 rounded-[22px]"
+                      style={{
+                        backgroundImage: `radial-gradient(circle, ${s.dotHex} 1.5px, transparent 1.5px)`,
+                        backgroundSize: '8px 8px',
+                      }}
+                    ></div>
+                    {/* Solid icon */}
+                    <div className="absolute inset-[10px] rounded-2xl flex items-center justify-center shadow-lg"
+                      style={{ backgroundColor: s.hex }}
+                    >
+                      {s.svgIcon}
+                    </div>
                   </div>
-                  <h3 className="font-extrabold text-navy text-2xl mb-2">{s.title}</h3>
-                  <p className="text-base text-gray-700 leading-relaxed mb-5">{s.desc}</p>
-                  <span className="inline-flex items-center text-base font-bold text-[#1a3a6b] group-hover:text-[#f26522] transition-colors">
-                    {t('getStarted')} <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                  </span>
+                  <span className="text-3xl font-extrabold select-none" style={{ color: s.hex, opacity: 0.35 }}>{s.number}</span>
                 </div>
-              ))}
+
+                {/* Color line */}
+                <div className="w-8 h-[3px] rounded-full mb-5" style={{ backgroundColor: s.hex }}></div>
+
+                {/* Title */}
+                <h3 className="font-bold text-[#0f1b3d] text-[22px] mb-3">{s.title}</h3>
+
+                {/* Description */}
+                <p className="text-gray-500 text-[14px] leading-relaxed mb-7">{s.desc}</p>
+
+                {/* Features */}
+                <div className="space-y-3 mb-8 flex-1">
+                  {s.features.map((f, idx) => (
+                    <div key={idx} className="flex items-center gap-2.5 text-[13px] text-gray-700">
+                      <CheckCircle2 className="w-[18px] h-[18px] flex-shrink-0" style={{ color: s.hex }} />
+                      <span className="font-medium">{f}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Button */}
+                <button
+                  onClick={() => go(s.to)}
+                  className="inline-flex items-center justify-between px-6 py-3.5 rounded-xl text-white font-semibold text-[14px] transition-all duration-200 shadow-md hover:shadow-lg mt-auto"
+                  style={{ backgroundColor: s.hex, width: '75%' }}
+                  onMouseEnter={e => e.currentTarget.style.backgroundColor = s.hoverHex}
+                  onMouseLeave={e => e.currentTarget.style.backgroundColor = s.hex}
+                >
+                  <span>{s.btnText}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </section>
