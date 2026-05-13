@@ -112,37 +112,58 @@ export default function Topbar() {
                   <ChevronDown className={`hidden sm:block w-3 sm:w-3.5 h-3 sm:h-3.5 text-gray-400 transition-transform flex-shrink-0 ${menuOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {menuOpen && (
-                  <div className="absolute right-0 mt-1 sm:mt-2 w-56 sm:w-64 rounded-lg sm:rounded-2xl bg-white border border-gray-100 shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-1">
-                    <div className="px-3 sm:px-4 py-2.5 sm:py-3.5 bg-gradient-to-r from-navy to-navy-mid">
-                      <div className="text-xs sm:text-[13px] font-bold text-white truncate">{user.name || 'Member'}</div>
-                      <div className="text-[10px] sm:text-[11px] text-white/70 mt-0.5">+{user.phone}</div>
-                      {user.epic && (
-                        <div className="text-[10px] sm:text-[11px] text-white/50 mt-0.5">EPIC: {user.epic}</div>
-                      )}
+                  <div className="absolute right-0 mt-2 sm:mt-3 w-72 sm:w-80 rounded-xl sm:rounded-2xl bg-white border border-gray-150 shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2">
+                    {/* Header section with gradient background */}
+                    <div className="px-4 sm:px-5 py-4 sm:py-5 bg-gradient-to-br from-navy via-navy to-navy-mid relative overflow-hidden">
+                      <div className="absolute -top-8 -right-8 w-24 h-24 bg-white/5 rounded-full"></div>
+                      <div className="relative z-10">
+                        <div className="flex items-start gap-3 sm:gap-3.5">
+                          <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-white/20 border border-white/30 flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
+                            <span className="text-sm sm:text-base font-bold text-white">{initial}</span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm sm:text-[15px] font-bold text-white truncate">{user.name || 'Member'}</div>
+                            <div className="text-xs sm:text-[12px] text-white/75 mt-0.5 truncate">+{user.phone}</div>
+                            {user.epic && (
+                              <div className="text-[11px] sm:text-[12px] text-white/60 mt-1 font-medium">EPIC ID: {user.epic}</div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="py-0.5 sm:py-1">
+
+                    {/* Menu items section */}
+                    <div className="py-1.5 sm:py-2">
                       <button
                         type="button"
                         onClick={() => { setMenuOpen(false); navigate('/my-grievances') }}
-                        className="w-full text-left px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-[13px] text-gray-700 hover:bg-gray-50 flex items-center gap-2 sm:gap-2.5 transition-colors"
+                        className="w-full text-left px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-[13px] text-gray-700 hover:bg-blue-50 flex items-center gap-3 transition-all duration-150 group"
                       >
-                        <UserIcon className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-gray-400 flex-shrink-0" /> <span>My Requests</span>
+                        <UserIcon className="w-4 sm:w-4.5 h-4 sm:h-4.5 text-gray-400 group-hover:text-navy transition-colors flex-shrink-0" />
+                        <span className="font-medium group-hover:text-navy transition-colors">My Requests</span>
                       </button>
                       <button
                         type="button"
                         onClick={() => { setMenuOpen(false); navigate('/track') }}
-                        className="w-full text-left px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-[13px] text-gray-700 hover:bg-gray-50 flex items-center gap-2 sm:gap-2.5 transition-colors"
+                        className="w-full text-left px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-[13px] text-gray-700 hover:bg-blue-50 flex items-center gap-3 transition-all duration-150 group"
                       >
-                        <Search className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-gray-400 flex-shrink-0" /> <span>Track Grievance</span>
+                        <Search className="w-4 sm:w-4.5 h-4 sm:h-4.5 text-gray-400 group-hover:text-navy transition-colors flex-shrink-0" />
+                        <span className="font-medium group-hover:text-navy transition-colors">Track Grievance</span>
                       </button>
                     </div>
-                    <div className="border-t border-gray-100">
+
+                    {/* Divider */}
+                    <div className="border-t border-gray-100"></div>
+
+                    {/* Sign out button */}
+                    <div className="py-1.5 sm:py-2">
                       <button
                         type="button"
                         onClick={handleLogout}
-                        className="w-full text-left px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-[13px] text-red-600 hover:bg-red-50 flex items-center gap-2 sm:gap-2.5 transition-colors"
+                        className="w-full text-left px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-[13px] text-red-600 hover:bg-red-50/80 flex items-center gap-3 transition-all duration-150 group"
                       >
-                        <LogOut className="w-3.5 sm:w-4 h-3.5 sm:h-4 flex-shrink-0" /> <span>Sign Out</span>
+                        <LogOut className="w-4 sm:w-4.5 h-4 sm:h-4.5 text-red-500 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                        <span className="font-medium">Sign Out</span>
                       </button>
                     </div>
                   </div>
