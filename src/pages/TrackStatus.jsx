@@ -71,7 +71,7 @@ export default function TrackStatus() {
   return (
     <div className="flex min-h-[calc(100vh-80px)] bg-[#f4f6f8]">
       {/* ── LEFT SIDEBAR (Grievance Categories) ── */}
-      <div className="hidden lg:flex flex-col w-[260px] xl:w-[280px] shrink-0 bg-white border-r border-gray-200 pt-6">
+      <div className="hidden lg:flex flex-col w-[260px] xl:w-[280px] shrink-0 bg-white border-r border-gray-200 pt-6 pb-6">
         <div className="px-5 pb-4">
           <h3 className="text-[10px] font-bold text-gray-400 tracking-widest uppercase">Grievance Categories</h3>
         </div>
@@ -91,7 +91,7 @@ export default function TrackStatus() {
         )}
 
         {!catalogLoading && !catalogError && (
-          <div className="flex-1 overflow-y-auto pb-4 custom-scrollbar flex flex-col justify-between">
+          <div className="flex-1 flex flex-col justify-evenly">
             {services.map((s) => {
               // Highlight the category if it matches the tracked grievance
               const isActive = result && (result.serviceId === s.id || result.serviceTitle === s.title);
@@ -122,16 +122,6 @@ export default function TrackStatus() {
             })}
           </div>
         )}
-
-        {/* ── BOTTOM HELP BLOCK ── */}
-        <div className="mt-auto p-6 bg-gray-50/50 border-t border-gray-100">
-          <button className="flex items-center gap-3 w-full text-left group">
-            <Info className="w-6 h-6 text-[#2b4162] shrink-0 group-hover:scale-110 transition-transform" />
-            <span className="text-[15px] font-medium text-[#2b4162] leading-tight">
-              Track your<br/>grievance status
-            </span>
-          </button>
-        </div>
       </div>
 
       {/* ── MAIN CONTENT AREA ── */}

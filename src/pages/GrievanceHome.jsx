@@ -409,7 +409,7 @@ export default function GrievanceHome() {
                     isActive ? 'text-white/80' : 'text-gray-400'
                   }`}>
                     {s.iconUrl ? (
-                      <img src={s.iconUrl} alt={s.title} className={`w-full h-full object-contain ${isActive ? 'brightness-0 invert' : ''}`} />
+                      <img src={s.iconUrl} alt={s.title} className="w-full h-full object-contain bg-white rounded-sm p-0.5" />
                     ) : (
                       <div className="font-bold text-sm">{s.title?.charAt(0)}</div>
                     )}

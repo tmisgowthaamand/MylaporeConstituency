@@ -25,9 +25,13 @@ export function AuthProvider({ children }) {
       try {
         const { data } = await api.get('/portal/auth/me')
         if (!cancelled) setUser(data?.user || null)
-      } catch {
+      } catch (err) {
         if (!cancelled) {
-          setToken(null)
+          // Only clear token on 401 (expired/invalid). Keep it on 503/network
+          // errors so a Render cold-start doesn't log the user out.
+          if (err?.response?.status === 401) {
+            setToken(null)
+          }
           setUser(null)
         }
       } finally {

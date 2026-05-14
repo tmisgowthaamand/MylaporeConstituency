@@ -22,21 +22,29 @@ export default function Footer() {
       {/* Hero Section */}
       <div className="relative z-10 w-full border-b border-white/50">
         <div className="flex flex-col md:flex-row">
-          {/* Image - Hidden on mobile */}
-          <div className="hidden md:flex md:w-[35%] xl:w-[30%] flex-col items-end relative">
-            <div className="w-full aspect-[0.85/1] pointer-events-none mt-auto relative flex-shrink-0">
+          {/* Images */}
+          <div className="flex w-full md:w-[35%] xl:w-[30%] flex-col items-center md:items-end relative order-2 md:order-1 mt-2 md:mt-0">
+            <div className="w-[85%] sm:w-[70%] md:w-full aspect-[1.4/1] pointer-events-none mt-auto relative flex items-end justify-start pl-2 gap-2">
               <img
                 alt="Thalaivar Vijay"
                 decoding="async"
-                className="w-full h-full object-contain object-bottom"
-                src="/mla.png"
+                className="w-[60%] h-[130%] object-contain object-bottom"
+                style={{ filter: 'brightness(1.18) contrast(1.05)' }}
+                src="/footer-1.png"
+                loading="eager"
+              />
+              <img
+                alt="MLA"
+                decoding="async"
+                className="w-[38%] h-[75%] object-contain object-bottom"
+                src="/footer-2.png"
                 loading="eager"
               />
             </div>
           </div>
 
           {/* Content - Full width on mobile, 65% on desktop */}
-          <div className="w-full md:w-[65%] xl:w-[70%] px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-12 flex flex-col justify-between">
+          <div className="w-full md:w-[65%] xl:w-[70%] px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-12 flex flex-col justify-between order-1 md:order-2">
             <div>
               <h2 className="text-white text-xl sm:text-2xl md:text-3xl font-bold mb-3 md:mb-4">Join the movement</h2>
               <p className="text-white/80 text-sm sm:text-base leading-relaxed mb-4 md:mb-6">
@@ -52,21 +60,21 @@ export default function Footer() {
 
             {/* Social Icons */}
             <div className="flex flex-col gap-4 md:gap-6 mt-6 md:mt-8">
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex gap-2 flex-wrap justify-end">
                 <a href="https://x.com/TVKVijayHQ" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="p-2 text-white hover:text-[#FFD700] transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75-2.45 7-7 7-11.6V3z"/></svg>
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75-2.45 7-7 7-11.6V3z" /></svg>
                 </a>
                 <a href="https://www.instagram.com/tvkvijayhq/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 text-white hover:text-[#FFD700] transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" fill="#990000"/><circle cx="17.5" cy="6.5" r="1.5" fill="#990000"/></svg>
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" fill="#990000" /><circle cx="17.5" cy="6.5" r="1.5" fill="#990000" /></svg>
                 </a>
                 <a href="https://www.facebook.com/TVKVijayHQ/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 text-white hover:text-[#FFD700] transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a6 6 0 00-6 6v3H7v4h2v8h4v-8h3l1-4h-4V8a2 2 0 012-2h3z"/></svg>
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a6 6 0 00-6 6v3H7v4h2v8h4v-8h3l1-4h-4V8a2 2 0 012-2h3z" /></svg>
                 </a>
                 <a href="https://www.youtube.com/@TVKVijayHQ-Offl" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="p-2 text-white hover:text-[#FFD700] transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.54c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.33 29 29 0 00-.46-5.25z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#990000"/></svg>
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.54c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.33 29 29 0 00-.46-5.25z" /><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#990000" /></svg>
                 </a>
                 <a href="https://www.threads.com/@tvkvijayhq" target="_blank" rel="noopener noreferrer" aria-label="Threads" className="p-2 text-white hover:text-[#FFD700] transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><path d="M12 13a8 8 0 0 1 0-16 8 8 0 0 1 0 16m0-2a6 6 0 0 0 0-12 6 6 0 0 0 0 12"/></svg>
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1" /><path d="M12 13a8 8 0 0 1 0-16 8 8 0 0 1 0 16m0-2a6 6 0 0 0 0-12 6 6 0 0 0 0 12" /></svg>
                 </a>
               </div>
             </div>

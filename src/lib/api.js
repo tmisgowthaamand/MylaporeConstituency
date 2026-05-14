@@ -16,7 +16,7 @@ const baseURL = import.meta.env.VITE_API_URL || '/api'
 
 const api = axios.create({
   baseURL,
-  timeout: 30_000,
+  timeout: 60_000,
 })
 
 const TOKEN_KEY = 'tvk_portal_token'
@@ -38,7 +38,14 @@ api.interceptors.request.use((cfg) => {
 
 api.interceptors.response.use(
   (r) => r,
-  (err) => {
+  async (err) => {
+    const cfg = err.config
+    // Retry once on 503 (Render cold-start)
+    if (err?.response?.status === 503 && !cfg._retried) {
+      cfg._retried = true
+      await new Promise((r) => setTimeout(r, 3000))
+      return api(cfg)
+    }
     // Drop a stale token so the next page load redirects to the auth screen
     // instead of silently failing again.
     if (err?.response?.status === 401) setToken(null)

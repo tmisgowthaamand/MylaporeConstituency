@@ -70,17 +70,27 @@ export default function LoginPage() {
     <div className="min-h-screen flex flex-col bg-white">
       <div className="flex-1 flex flex-col lg:flex-row">
 
-        {/* ─── LEFT: LEADER IMAGE ─── */}
-        <div
-          className="hidden lg:block lg:w-[45%] relative overflow-hidden"
-          style={{
-            backgroundImage: 'url(/93bb2e14-70f0-463c-96c1-7a4fec0c9e25.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center 30%',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: '#e8e8e8',
-          }}
-        />
+        {/* ─── LEFT: DUAL LEADER PORTRAITS ─── */}
+        <div className="hidden lg:flex lg:w-[35%] xl:w-[45%] relative overflow-hidden bg-white">
+          {/* Two portraits side by side — CM prominent, MLA slightly lower */}
+          <div className="relative flex items-end w-full h-full">
+            {/* Vijay - CM / Leader - taller & prominent */}
+            <img
+              src="/bee77a3b-register.png"
+              alt="Thalaivar Vijay"
+              className="w-[55%] h-[90%] xl:h-[95%] object-cover object-top"
+              style={{ filter: 'brightness(1.18) contrast(1.05)' }}
+              loading="eager"
+            />
+            {/* MLA - slightly smaller & lower */}
+            <img
+              src="/9903d452-register.png"
+              alt="MLA Gowtham"
+              className="w-[45%] h-[65%] xl:h-[70%] object-cover object-top"
+              loading="eager"
+            />
+          </div>
+        </div>
 
         {/* ─── RIGHT: LOGIN FORM ─── */}
         <div className="flex-1 flex flex-col justify-center px-3 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 sm:py-12 lg:py-8 overflow-y-auto">
@@ -105,8 +115,9 @@ export default function LoginPage() {
             <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-6 sm:mb-8 md:mb-10">Login to the Mylapore Citizen Portal</p>
 
             {/* Mobile leader image */}
-            <div className="lg:hidden flex justify-center mb-6 sm:mb-8">
-              <img src="/93bb2e14-70f0-463c-96c1-7a4fec0c9e25.png" alt="TVK" className="w-32 sm:w-40 md:w-48 object-contain" />
+            <div className="lg:hidden flex items-end justify-center mb-8 gap-2">
+              <img src="/bee77a3b-register.png" alt="Vijay" className="w-28 sm:w-36 object-contain" style={{ filter: 'brightness(1.18) contrast(1.05)' }} />
+              <img src="/9903d452-register.png" alt="MLA" className="w-20 sm:w-26 h-[75%] object-cover object-top rounded-sm" />
             </div>
 
             {error && (
