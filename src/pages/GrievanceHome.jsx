@@ -174,9 +174,9 @@ export default function GrievanceHome() {
   }
 
   const openGoogleMapsPicker = () => {
-    // Center on Mylapore coordinates
-    const mylaporeCoords = { lat: 13.0368, lng: 80.2676 }
-    const mapUrl = `https://www.google.com/maps/@${mylaporeCoords.lat},${mylaporeCoords.lng},17z`
+    // Center on Tamil Nadu coordinates
+    const tnCoords = { lat: 11.1271, lng: 78.6569 }
+    const mapUrl = `https://www.google.com/maps/@${tnCoords.lat},${tnCoords.lng},7z`
     
     // Open Google Maps in new window
     const mapWindow = window.open(mapUrl, 'GoogleMapsPicker', 'width=1000,height=800')
@@ -208,9 +208,9 @@ export default function GrievanceHome() {
       const lat = parseFloat(coordMatch[1])
       const lng = parseFloat(coordMatch[2])
 
-      // Validate coordinates are in Mylapore area (rough bounds)
-      if (lat < 13.02 || lat > 13.05 || lng < 80.25 || lng > 80.29) {
-        setToast('⚠️ Location seems outside Mylapore area. Please select a location within Mylapore.')
+      // Check if coordinates are somewhat within India bounds
+      if (lat < 6 || lat > 37 || lng < 68 || lng > 98) {
+        setToast('⚠️ Please select a location within India.')
         setTimeout(() => setToast(null), 5000)
         return
       }
@@ -746,7 +746,7 @@ export default function GrievanceHome() {
                         <select
                           className="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1a3a6b] focus:border-transparent transition-all text-[#2b4162] font-medium appearance-none cursor-pointer"
                           value={location.district || ''}
-                          onChange={(e) => setLocation({ ...location, district: e.target.value, area: '', text: e.target.value })}
+                          onChange={(e) => setLocation({ ...location, district: e.target.value, area: '', text: e.target.value, showAreaInput: false })}
                         >
                           <option value="">Select District</option>
                           <option value="Chennai">Chennai</option>
@@ -755,24 +755,37 @@ export default function GrievanceHome() {
                       {/* Area / Locality */}
                       <div>
                         <label className="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Area / Locality</label>
-                        <select
-                          className="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1a3a6b] focus:border-transparent transition-all text-[#2b4162] font-medium appearance-none cursor-pointer disabled:bg-gray-50 disabled:text-gray-400"
-                          value={location.area || ''}
-                          disabled={!location.district}
-                          onChange={(e) => {
-                            const areaCoords = {
-                              'Mylapore': { lat: 13.0368, lng: 80.2676 }
-                            }
-                            const coords = areaCoords[e.target.value] || { lat: null, lng: null }
-                            setLocation({ ...location, area: e.target.value, text: `${e.target.value}, ${location.district}`, ...coords })
-                          }}
-                        >
-                          <option value="">Select Area</option>
-                          {location.district === 'Chennai' && <>
+                        {location.district === 'Chennai' && !location.showAreaInput ? (
+                          <select
+                            className="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1a3a6b] focus:border-transparent transition-all text-[#2b4162] font-medium appearance-none cursor-pointer"
+                            value={location.area || ''}
+                            onChange={(e) => {
+                              if (e.target.value === 'Other') {
+                                setLocation({ ...location, area: '', showAreaInput: true })
+                              } else {
+                                const areaCoords = { 'Mylapore': { lat: 13.0368, lng: 80.2676 } }
+                                const coords = areaCoords[e.target.value] || { lat: null, lng: null }
+                                setLocation({ ...location, area: e.target.value, text: `${e.target.value}, ${location.district}`, ...coords })
+                              }
+                            }}
+                          >
+                            <option value="">Select Area</option>
                             <option value="Mylapore">Mylapore</option>
-                          </>}
-                          {location.district && location.district !== 'Chennai' && <option value={location.district + ' City'}>{location.district} City</option>}
-                        </select>
+                            <option value="T. Nagar">T. Nagar</option>
+                            <option value="Anna Nagar">Anna Nagar</option>
+                            <option value="Velachery">Velachery</option>
+                            <option value="Adyar">Adyar</option>
+                            <option value="Other">Other (Type manually)</option>
+                          </select>
+                        ) : (
+                          <input
+                            type="text"
+                            className="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1a3a6b] focus:border-transparent transition-all placeholder:text-gray-400"
+                            placeholder="e.g., Locality / Area"
+                            value={location.area || ''}
+                            onChange={(e) => setLocation({ ...location, area: e.target.value, text: `${e.target.value}, ${location.district || ''}` })}
+                          />
+                        )}
                       </div>
                     </div>
 
@@ -791,28 +804,24 @@ export default function GrievanceHome() {
                             setLocation({ ...location, street, text: street ? `${street}, ${base}` : base })
                           }}
                         />
-                        {location.area === 'Mylapore' && (
-                          <button
-                            type="button"
-                            onClick={openGoogleMapsPicker}
-                            disabled={geoLoading}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center transition-colors shadow-sm disabled:opacity-50"
-                            title="Pick location on Google Maps"
-                          >
-                            {geoLoading ? (
-                              <Loader2 className="w-4 h-4 text-white animate-spin" />
-                            ) : (
-                              <MapPin className="w-4 h-4 text-white" />
-                            )}
-                          </button>
-                        )}
+                        <button
+                          type="button"
+                          onClick={openGoogleMapsPicker}
+                          disabled={geoLoading}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#1a3a6b] hover:bg-[#1a2942] flex items-center justify-center transition-colors shadow-sm disabled:opacity-50"
+                          title="Pick location on Google Maps"
+                        >
+                          {geoLoading ? (
+                            <Loader2 className="w-4 h-4 text-white animate-spin" />
+                          ) : (
+                            <MapPin className="w-4 h-4 text-white" />
+                          )}
+                        </button>
                       </div>
-                      {location.area === 'Mylapore' && (
-                        <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
-                          <MapPin className="w-3 h-3 text-blue-600" />
-                          Click the blue map icon to select your exact location in Mylapore
-                        </p>
-                      )}
+                      <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                        <MapPin className="w-3 h-3 text-[#1a3a6b]" />
+                        Click the map icon to select your exact location on Google Maps
+                      </p>
                     </div>
                   </div>
 
