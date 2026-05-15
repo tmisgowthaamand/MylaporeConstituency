@@ -212,6 +212,8 @@ export default function MyGrievances() {
                 const photos = g.imageUrl ? [g.imageUrl] : g.photos || g.images || []
                 const hasLocation = g.location || (g.lat && g.lng)
                 const googleMapsUrl = g.lat && g.lng ? `https://www.google.com/maps?q=${g.lat},${g.lng}` : null
+                const mlaReply = g.notes || g.adminNotes || g.reply || g.adminReply || g.response || g.mlaResponse || ''
+                const replyDate = g.repliedAt || g.notesUpdatedAt || g.updatedAt
                 return (
                   <div key={g._id || g.ticketId} className="bg-white rounded-lg md:rounded-2xl border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.02)] overflow-hidden transition-all">
                     {/* Card Header — always visible, clickable */}
@@ -353,7 +355,7 @@ export default function MyGrievances() {
                         )}
 
                         {/* Official Response */}
-                        {g.notes && (
+                        {mlaReply && (
                           <div className="bg-[#edeef1]">
                             <div className="px-5 md:px-8 py-4 border-b border-gray-200">
                               <h2 className="text-base md:text-lg font-bold text-gray-900">Official Response</h2>
@@ -367,9 +369,9 @@ export default function MyGrievances() {
                                   </div>
                                   <span className="text-xs font-bold text-red-800 uppercase tracking-wider">MLA Office</span>
                                 </div>
-                                <p className="text-sm text-gray-900 leading-relaxed mb-2.5">{g.notes}</p>
+                                <p className="text-sm text-gray-900 leading-relaxed mb-2.5">{mlaReply}</p>
                                 <p className="text-[10px] font-bold text-red-800 uppercase tracking-wider">
-                                  Replied on {formatDateTime(g.updatedAt)}
+                                  Replied on {formatDateTime(replyDate)}
                                 </p>
                               </div>
                             </div>
