@@ -209,7 +209,8 @@ export default function MyGrievances() {
                 const status = STATUS_LABELS[g.status] || STATUS_LABELS.pending
                 const isClosed = g.status === 'completed' || g.status === 'rejected'
                 const isExpanded = expandedId === (g._id || g.ticketId)
-                const photos = g.imageUrl ? [g.imageUrl] : g.photos || g.images || []
+                const rawPhotos = g.imageUrl ? [g.imageUrl] : g.photos || g.images || g.attachments || g.mediaUrls || []
+                const photos = (Array.isArray(rawPhotos) ? rawPhotos : [rawPhotos]).filter(Boolean)
                 const hasLocation = g.location || (g.lat && g.lng)
                 const googleMapsUrl = g.lat && g.lng ? `https://www.google.com/maps?q=${g.lat},${g.lng}` : null
                 const mlaReply = g.notes || g.adminNotes || g.reply || g.adminReply || g.response || g.mlaResponse || ''
