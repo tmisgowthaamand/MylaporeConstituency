@@ -199,7 +199,7 @@ export default function MyGrievances() {
                 const status = STATUS_LABELS[g.status] || STATUS_LABELS.pending
                 const isClosed = g.status === 'completed' || g.status === 'rejected'
                 return (
-                  <div key={g._id || g.ticketId} className="bg-white rounded-lg md:rounded-2xl border border-gray-200 p-4 md:p-6 shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all">
+                  <div key={g._id || g.ticketId} onClick={() => navigate(`/grievance/${g.ticketId}`)} className="bg-white rounded-lg md:rounded-2xl border border-gray-200 p-4 md:p-6 shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all cursor-pointer">
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3 md:mb-4">
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-center gap-2 mb-2">

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Search, MapPin, Clock, MessageSquare, AlertCircle, PhoneCall, QrCode, CheckCircle2, Info } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { Search, MapPin, Clock, MessageSquare, AlertCircle, PhoneCall, QrCode, CheckCircle2, Info, ArrowRight } from 'lucide-react'
 import api from '../lib/api'
 
 /**
@@ -23,6 +24,7 @@ function formatDate(d) {
 }
 
 export default function TrackStatus() {
+  const navigate = useNavigate()
   const [trackId, setTrackId] = useState('')
   const [result, setResult] = useState(null)
   const [error, setError] = useState('')
@@ -269,6 +271,16 @@ export default function TrackStatus() {
                       <span>Received</span><span>Review</span><span>Action</span><span>Resolved</span>
                     </div>
                   </div>
+                </div>
+
+                {/* View Full Details */}
+                <div className="px-6 md:px-8 pb-5">
+                  <button
+                    onClick={() => navigate(`/grievance/${result.ticketId}`)}
+                    className="w-full bg-[#1a3a6b] hover:bg-[#122d55] text-white py-3 rounded-xl font-bold text-sm transition-colors flex items-center justify-center gap-2"
+                  >
+                    View Full Details <ArrowRight className="w-4 h-4" />
+                  </button>
                 </div>
 
                 {/* Footer Info */}
