@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { MapPin, Clock, MessageSquare, Plus, Search, User, ShieldAlert, CheckCircle2, PhoneCall, ArrowRight, Info, Filter } from 'lucide-react'
+import { MapPin, Clock, MessageSquare, Plus, Search, User, ShieldAlert, CheckCircle2, PhoneCall, ArrowRight, Info, Filter, ExternalLink, FileText, ChevronDown, ChevronUp } from 'lucide-react'
 import api from '../lib/api'
 import { useAuth } from '../lib/auth'
 
@@ -23,12 +23,22 @@ function formatDate(d) {
   return new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
 }
 
+function formatDateTime(d) {
+  if (!d) return ''
+  return new Date(d).toLocaleDateString('en-IN', {
+    day: '2-digit', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit', hour12: true,
+  }).toUpperCase()
+}
+
 export default function MyGrievances() {
   const { user } = useAuth()
   const navigate = useNavigate()
   const [requests, setRequests] = useState([])
   const [loading, setLoading] = useState(true)
   const [filterStatus, setFilterStatus] = useState('all')
+  const [expandedId, setExpandedId] = useState(null)
+  const [lightboxImg, setLightboxImg] = useState(null)
 
   const filteredRequests = filterStatus === 'all'
     ? requests
@@ -198,71 +208,175 @@ export default function MyGrievances() {
               {filteredRequests.map((g) => {
                 const status = STATUS_LABELS[g.status] || STATUS_LABELS.pending
                 const isClosed = g.status === 'completed' || g.status === 'rejected'
+                const isExpanded = expandedId === (g._id || g.ticketId)
+                const photos = g.imageUrl ? [g.imageUrl] : g.photos || g.images || []
+                const hasLocation = g.location || (g.lat && g.lng)
+                const googleMapsUrl = g.lat && g.lng ? `https://www.google.com/maps?q=${g.lat},${g.lng}` : null
                 return (
-                  <div key={g._id || g.ticketId} onClick={() => navigate(`/grievance/${g.ticketId}`)} className="bg-white rounded-lg md:rounded-2xl border border-gray-200 p-4 md:p-6 shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all cursor-pointer">
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3 md:mb-4">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-center gap-2 mb-2">
-                          <span className="text-xs sm:text-sm font-bold text-[#1a3a6b]">#{g.ticketId}</span>
-                          <span className={`inline-flex items-center px-2 md:px-3 py-0.5 md:py-1 rounded-lg text-xs font-semibold ${status.cls} flex-shrink-0`}>
-                            {status.label}
+                  <div key={g._id || g.ticketId} className="bg-white rounded-lg md:rounded-2xl border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.02)] overflow-hidden transition-all">
+                    {/* Card Header — always visible, clickable */}
+                    <div
+                      onClick={() => setExpandedId(isExpanded ? null : (g._id || g.ticketId))}
+                      className="p-4 md:p-6 cursor-pointer hover:bg-gray-50/50 transition-colors"
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3 md:mb-4">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <span className="text-xs sm:text-sm font-bold text-[#1a3a6b]">#{g.ticketId}</span>
+                            <span className={`inline-flex items-center px-2 md:px-3 py-0.5 md:py-1 rounded-lg text-xs font-semibold ${status.cls} flex-shrink-0`}>
+                              {status.label}
+                            </span>
+                          </div>
+                          <h3 className="text-sm md:text-[15px] font-bold text-gray-900 break-words">{g.optionTitle || g.optionId}</h3>
+                        </div>
+                        <div className="flex items-center gap-2 self-start">
+                          <span className="inline-block bg-[#1a3a6b]/10 text-[#1a3a6b] text-xs font-bold px-2 md:px-3 py-1 md:py-1.5 rounded-lg">
+                            {g.serviceTitle || g.serviceId}
                           </span>
+                          {isExpanded ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
                         </div>
-                        <h3 className="text-sm md:text-[15px] font-bold text-gray-900 break-words">{g.optionTitle || g.optionId}</h3>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-gray-500 mb-3 md:mb-4 pb-3 md:pb-4 border-b border-gray-100">
+                        <span className="flex items-center gap-1 flex-shrink-0">
+                          <Clock className="w-3 md:w-4 h-3 md:h-4 flex-shrink-0" />
+                          {formatDate(g.createdAt)}
+                        </span>
+                        <span className={`font-semibold px-2 md:px-2.5 py-0.5 md:py-1 rounded-full text-xs flex-shrink-0 ${isClosed ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
+                          {isClosed ? 'Action Taken' : 'Awaiting Review'}
+                        </span>
+                      </div>
+
+                      {/* Progress Bar */}
+                      <div>
+                        <div className="h-1.5 md:h-2 bg-gray-200 rounded-full overflow-hidden mb-1.5 md:mb-2">
+                          <div className={`h-full rounded-full transition-all duration-700 ${status.bar}`} style={{ width: status.pct }} />
+                        </div>
+                        <div className="flex justify-between text-[9px] md:text-[10px] text-gray-400 gap-0.5">
+                          <span>Received</span><span>Review</span><span>Action</span><span>Resolved</span>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="mb-3 md:mb-4">
-                      <span className="inline-block bg-[#1a3a6b]/10 text-[#1a3a6b] text-xs font-bold px-2 md:px-3 py-1 md:py-1.5 rounded-lg">
-                        {g.serviceTitle || g.serviceId}
-                      </span>
-                    </div>
+                    {/* ─── EXPANDED DETAIL SECTIONS ─── */}
+                    {isExpanded && (
+                      <div className="border-t border-gray-200 bg-[#f4f6f8]">
 
-                    {g.location && (
-                      <div className="flex items-start gap-2 text-xs md:text-sm text-gray-600 mb-2 md:mb-3 break-words">
-                        <MapPin className="w-3 md:w-4 h-3 md:h-4 flex-shrink-0 mt-0.5" />
-                        <span>{g.location}</span>
-                      </div>
-                    )}
+                        {/* Your Submission */}
+                        <div className="border-b border-gray-200 bg-[#edeef1]">
+                          <div className="px-5 md:px-8 py-4 border-b border-gray-200">
+                            <h2 className="text-base md:text-lg font-bold text-gray-900">Your Submission</h2>
+                            <p className="text-xs text-gray-500 mt-0.5">What you reported when filing this grievance</p>
+                          </div>
+                          <div className="px-5 md:px-8 py-5 space-y-5">
+                            {/* Category & Issue */}
+                            <div className="flex flex-col sm:flex-row gap-5 sm:gap-10">
+                              <div>
+                                <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">
+                                  <FileText className="w-3 h-3" /> Category
+                                </div>
+                                <p className="text-sm font-bold text-gray-900">{g.serviceTitle || g.serviceId || '-'}</p>
+                              </div>
+                              <div>
+                                <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">
+                                  <FileText className="w-3 h-3" /> Issue
+                                </div>
+                                <p className="text-sm font-bold text-gray-900">{g.optionTitle || g.optionId || '-'}</p>
+                              </div>
+                            </div>
 
-                    {g.description && (
-                      <p className="text-xs md:text-sm text-gray-700 bg-gray-50 rounded-lg p-2 md:p-3 mb-3 md:mb-4 border border-gray-100 break-words">
-                        {g.description.substring(0, 200)}{g.description.length > 200 ? '...' : ''}
-                      </p>
-                    )}
+                            {/* Description */}
+                            {g.description && (
+                              <div>
+                                <div className="text-[10px] font-bold text-red-800 uppercase tracking-wider mb-1.5">Description</div>
+                                <div className="bg-white rounded-xl border border-gray-200 p-4">
+                                  <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap break-words">{g.description}</p>
+                                </div>
+                              </div>
+                            )}
 
-                    {g.notes && (
-                      <div className="bg-green-50 border border-green-200 rounded-lg p-3 md:p-4 mb-3 md:mb-4">
-                        <div className="flex items-start gap-2 text-xs md:text-sm font-bold text-green-800 mb-1 md:mb-2">
-                          <CheckCircle2 className="w-3 md:w-4 h-3 md:h-4 flex-shrink-0 mt-0.5" />
-                          <span>MLA Team Response:</span>
+                            {/* Location */}
+                            {hasLocation && (
+                              <div>
+                                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Location</div>
+                                <div className="bg-white rounded-xl border border-gray-200 p-4">
+                                  <div className="flex items-start gap-2.5">
+                                    <MapPin className="w-4 h-4 text-red-700 shrink-0 mt-0.5" />
+                                    <div>
+                                      <p className="text-sm text-gray-800">{g.location}</p>
+                                      {googleMapsUrl && (
+                                        <a
+                                          href={googleMapsUrl}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          onClick={(e) => e.stopPropagation()}
+                                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-red-800 hover:text-red-900 mt-2 transition-colors"
+                                        >
+                                          <ExternalLink className="w-3.5 h-3.5" />
+                                          Open in Google Maps ({Number(g.lat).toFixed(5)}, {Number(g.lng).toFixed(5)})
+                                        </a>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                        <p className="text-xs md:text-sm text-green-800 break-words">{g.notes}</p>
-                        {g.updatedAt && (
-                          <p className="text-xs text-green-700 mt-1 md:mt-2">Updated: {formatDate(g.updatedAt)}</p>
+
+                        {/* Attached Photos */}
+                        {photos.length > 0 && (
+                          <div className="border-b border-gray-200 bg-[#edeef1]">
+                            <div className="px-5 md:px-8 py-4 border-b border-gray-200">
+                              <h2 className="text-base md:text-lg font-bold text-gray-900">Attached Photos</h2>
+                              <p className="text-xs text-gray-500 mt-0.5">{photos.length} photo{photos.length !== 1 ? 's' : ''} you uploaded</p>
+                            </div>
+                            <div className="px-5 md:px-8 py-5">
+                              <div className="flex flex-wrap gap-3">
+                                {photos.map((url, i) => (
+                                  <button
+                                    key={i}
+                                    onClick={(e) => { e.stopPropagation(); setLightboxImg(url) }}
+                                    className="w-28 h-28 sm:w-36 sm:h-36 rounded-xl border-2 border-gray-200 overflow-hidden hover:border-[#1a3a6b] transition-all hover:shadow-md group"
+                                  >
+                                    <img
+                                      src={url}
+                                      alt={`Attachment ${i + 1}`}
+                                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                                      onError={(e) => { e.target.style.display = 'none' }}
+                                    />
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Official Response */}
+                        {g.notes && (
+                          <div className="bg-[#edeef1]">
+                            <div className="px-5 md:px-8 py-4 border-b border-gray-200">
+                              <h2 className="text-base md:text-lg font-bold text-gray-900">Official Response</h2>
+                              <p className="text-xs text-gray-500 mt-0.5">Message from MLA Venkatramanan's office</p>
+                            </div>
+                            <div className="px-5 md:px-8 py-5">
+                              <div className="bg-red-50 rounded-xl border border-red-200 p-4 md:p-5">
+                                <div className="flex items-center gap-2.5 mb-2.5">
+                                  <div className="w-8 h-8 rounded-full bg-red-800 flex items-center justify-center">
+                                    <MessageSquare className="w-3.5 h-3.5 text-yellow-400" />
+                                  </div>
+                                  <span className="text-xs font-bold text-red-800 uppercase tracking-wider">MLA Office</span>
+                                </div>
+                                <p className="text-sm text-gray-900 leading-relaxed mb-2.5">{g.notes}</p>
+                                <p className="text-[10px] font-bold text-red-800 uppercase tracking-wider">
+                                  Replied on {formatDateTime(g.updatedAt)}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
                         )}
                       </div>
                     )}
-
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-gray-500 mb-3 md:mb-4 pb-3 md:pb-4 border-b border-gray-100">
-                      <span className="flex items-center gap-1 flex-shrink-0">
-                        <Clock className="w-3 md:w-4 h-3 md:h-4 flex-shrink-0" />
-                        {formatDate(g.createdAt)}
-                      </span>
-                      <span className={`font-semibold px-2 md:px-2.5 py-0.5 md:py-1 rounded-full text-xs flex-shrink-0 ${isClosed ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
-                        {isClosed ? 'Action Taken' : 'Awaiting Review'}
-                      </span>
-                    </div>
-
-                    {/* Progress Bar */}
-                    <div>
-                      <div className="h-1.5 md:h-2 bg-gray-200 rounded-full overflow-hidden mb-1.5 md:mb-2">
-                        <div className={`h-full rounded-full transition-all duration-700 ${status.bar}`} style={{ width: status.pct }} />
-                      </div>
-                      <div className="flex justify-between text-[9px] md:text-[10px] text-gray-400 gap-0.5">
-                        <span>Received</span><span>Review</span><span>Action</span><span>Resolved</span>
-                      </div>
-                    </div>
                   </div>
                 )
               })}
@@ -327,6 +441,20 @@ export default function MyGrievances() {
           </div>
         </div>
       </div>
+      {/* Lightbox */}
+      {lightboxImg && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          onClick={() => setLightboxImg(null)}
+        >
+          <img
+            src={lightboxImg}
+            alt="Full size"
+            className="max-w-full max-h-[90vh] rounded-xl shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   )
 }

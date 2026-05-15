@@ -273,16 +273,6 @@ export default function TrackStatus() {
                   </div>
                 </div>
 
-                {/* View Full Details */}
-                <div className="px-6 md:px-8 pb-5">
-                  <button
-                    onClick={() => navigate(`/grievance/${result.ticketId}`)}
-                    className="w-full bg-[#1a3a6b] hover:bg-[#122d55] text-white py-3 rounded-xl font-bold text-sm transition-colors flex items-center justify-center gap-2"
-                  >
-                    View Full Details <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-
                 {/* Footer Info */}
                 <div className="bg-blue-50 border-t border-blue-100 px-6 md:px-8 py-4">
                   <div className="flex items-start gap-3">
